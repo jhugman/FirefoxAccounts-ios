@@ -22,10 +22,10 @@ private struct ETLDEntry: CustomStringConvertible {
     }
 }
 
-private typealias TLDEntryMap = [String:ETLDEntry]
+private typealias TLDEntryMap = [String: ETLDEntry]
 
 private func loadEntriesFromDisk() -> TLDEntryMap? {
-    if let data = String.contentsOfFileWithResourceName("effective_tld_names", ofType: "dat", fromBundle: Bundle(identifier: "org.mozilla.Shared")!, encoding: String.Encoding.utf8, error: nil) {
+    if let data = String.contentsOfFileWithResourceName("effective_tld_names", ofType: "dat", fromBundle: Bundle(identifier: "org.mozilla.Shared")!, encoding: .utf8, error: nil) {
         let lines = data.components(separatedBy: "\n")
         let trimmedLines = lines.filter { !$0.hasPrefix("//") && $0 != "\n" && $0 != "" }
 
@@ -35,10 +35,10 @@ private func loadEntriesFromDisk() -> TLDEntryMap? {
             let key: String
             if entry.isWild {
                 // Trim off the '*.' part of the line
-                key = line.substring(from: line.characters.index(line.startIndex, offsetBy: 2))
+                key = line.substring(from: line.index(line.startIndex, offsetBy: 2))
             } else if entry.isException {
                 // Trim off the '!' part of the line
-                key = line.substring(from: line.characters.index(line.startIndex, offsetBy: 1))
+                key = line.substring(from: line.index(line.startIndex, offsetBy: 1))
             } else {
                 key = line
             }
@@ -162,24 +162,27 @@ extension URL {
     }
 
     public var normalizedHostAndPath: String? {
-        if let normalizedHost = self.normalizedHost {
-            return normalizedHost + self.path
-        }
-        return nil
+        return normalizedHost.flatMap { $0 + self.path }
     }
 
-    public var absoluteDisplayString: String? {
+    public var absoluteDisplayString: String {
         var urlString = self.absoluteString
         // For http URLs, get rid of the trailing slash if the path is empty or '/'
-        if (self.scheme == "http" || self.scheme == "https") && (self.path == "/") && urlString.endsWith("/") {
-            urlString = urlString.substring(to: urlString.characters.index(urlString.endIndex, offsetBy: -1))
+        if (self.scheme == "http" || self.scheme == "https") && (self.path == "/") && urlString.hasSuffix("/") {
+            urlString = urlString.substring(to: urlString.index(urlString.endIndex, offsetBy: -1))
         }
         // If it's basic http, strip out the string but leave anything else in
         if urlString.hasPrefix("http://") {
-            return urlString.substring(from: urlString.characters.index(urlString.startIndex, offsetBy: 7))
+            return urlString.substring(from: urlString.index(urlString.startIndex, offsetBy: 7))
         } else {
             return urlString
         }
+    }
+
+    /// String suitable for displaying outside of the app, for example in notifications, were Data Detectors will
+    /// linkify the text and make it into a openable-in-Safari link.
+    public var absoluteDisplayExternalString: String {
+        return self.absoluteDisplayString.replacingOccurrences(of: ".", with: "\u{2024}")
     }
 
     public var displayURL: URL? {
@@ -188,11 +191,7 @@ extension URL {
         }
 
         if self.isErrorPageURL {
-            if let decodedURL = self.originalURLFromErrorURL {
-                return decodedURL.displayURL
-            } else {
-                return nil
-            }
+            return originalURLFromErrorURL?.displayURL
         }
 
         if !self.isAboutURL {
@@ -233,6 +232,7 @@ extension URL {
             // brackets for IPv6 hosts, whereas the latter escapes them.
             var components = URLComponents()
             components.scheme = self.scheme
+            components.port = self.port
             components.host = normalized
             components.path = "/"
             return components.url ?? self
@@ -261,20 +261,22 @@ extension URL {
     :returns: The public suffix for within the given hostname.
     */
     public var publicSuffix: String? {
-        if let host = self.host {
-            return publicSuffixFromHost(host, withAdditionalParts: 0)
-        } else {
-            return nil
-        }
+        return host.flatMap { publicSuffixFromHost($0, withAdditionalParts: 0) }
     }
 
     public func isWebPage(includeDataURIs: Bool = true) -> Bool {
         let schemes = includeDataURIs ? ["http", "https", "data"] : ["http", "https"]
-        if let scheme = scheme, schemes.contains(scheme) {
-            return true
-        }
+        return scheme.map { schemes.contains($0) } ?? false
+    }
 
-        return false
+    // This helps find local urls that we do not want to show loading bars on.
+    // These utility pages should be invisible to the user
+    public var isLocalUtility: Bool {
+        guard self.isLocal else {
+            return false
+        }
+        let utilityURLs = ["/errors", "/about/sessionrestore", "/about/home", "/reader-mode"]
+        return utilityURLs.contains { self.path.hasPrefix($0) }
     }
 
     public var isLocal: Bool {
@@ -299,7 +301,7 @@ extension URL {
      */
     public var schemeIsValid: Bool {
         guard let scheme = scheme else { return false }
-        return permanentURISchemes.contains(scheme)
+        return permanentURISchemes.contains(scheme.lowercased())
     }
 
     public func havingRemovedAuthorisationComponents() -> URL {
@@ -335,7 +337,7 @@ extension URL {
     }
 
     public func encodeReaderModeURL(_ baseReaderModeURL: String) -> URL? {
-        if let encodedURL = absoluteString.addingPercentEncoding(withAllowedCharacters: CharacterSet.alphanumerics) {
+        if let encodedURL = absoluteString.addingPercentEncoding(withAllowedCharacters: .alphanumerics) {
             if let aboutReaderURL = URL(string: "\(baseReaderModeURL)?url=\(encodedURL)") {
                 return aboutReaderURL
             }
@@ -384,7 +386,7 @@ extension URL {
         guard let scheme = self.scheme, let host = self.host else {
             return nil
         }
-        if scheme == "http" && host == "localhost" && path.startsWith(aboutPath) {
+        if scheme == "http" && host == "localhost" && path.hasPrefix(aboutPath) {
             return path.substring(from: aboutPath.endIndex)
         }
         return nil
@@ -461,9 +463,9 @@ private extension URL {
         if additionalPartCount > 0 {
             if let suffix = suffix {
                 // Take out the public suffixed and add in the additional parts we want.
-                let literalFromEnd: NSString.CompareOptions = [NSString.CompareOptions.literal,        // Match the string exactly.
-                                     NSString.CompareOptions.backwards,      // Search from the end.
-                                     NSString.CompareOptions.anchored]         // Stick to the end.
+                let literalFromEnd: NSString.CompareOptions = [.literal,        // Match the string exactly.
+                                     .backwards,      // Search from the end.
+                                     .anchored]         // Stick to the end.
                 let suffixlessHost = host.replacingOccurrences(of: suffix, with: "", options: literalFromEnd, range: nil)
                 let suffixlessTokens = suffixlessHost.components(separatedBy: ".").filter { $0 != "" }
                 let maxAdditionalCount = max(0, suffixlessTokens.count - additionalPartCount)

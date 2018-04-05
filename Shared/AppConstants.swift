@@ -5,6 +5,9 @@
 import UIKit
 
 public struct AppConstants {
+
+    public static let FxAiOSClientId = "1b1a3e44c54fbb58"
+
     ///  Enables/disables push notificatuibs for FxA
     public static let MOZ_FXA_PUSH: Bool = {
         #if MOZ_CHANNEL_RELEASE

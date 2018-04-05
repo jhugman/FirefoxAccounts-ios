@@ -14,13 +14,9 @@ open class KeyBundle: Hashable {
     let encKey: Data
     let hmacKey: Data
 
-    open class func fromKB(_ kB: Data) -> KeyBundle {
-        let salt = Data()
-        let contextInfo = FxAClient10.KW("oldsync")
-        let len: UInt = 64               // KeyLength + KeyLength, without type nonsense.
-        let derived = (kB as NSData).deriveHKDFSHA256Key(withSalt: salt, contextInfo: contextInfo, length: len)!
-        return KeyBundle(encKey: derived.subdata(in: 0..<KeyLength),
-                         hmacKey: derived.subdata(in: KeyLength..<(2 * KeyLength)))
+    open class func fromKSync(_ kSync: Data) -> KeyBundle {
+        return KeyBundle(encKey: kSync.subdata(in: 0..<KeyLength),
+                         hmacKey: kSync.subdata(in: KeyLength..<(2 * KeyLength)))
     }
 
     open class func random() -> KeyBundle {
@@ -62,6 +58,7 @@ open class KeyBundle: Hashable {
         let data = NSMutableData(bytes: result, length: digestLen)
 
         result.deinitialize()
+        result.deallocate(capacity: digestLen)
         return data as Data
     }
 
@@ -76,6 +73,7 @@ open class KeyBundle: Hashable {
         }
 
         result.deinitialize()
+        result.deallocate(capacity: digestLen)
         return String(hash)
     }
 
@@ -102,9 +100,9 @@ open class KeyBundle: Hashable {
         if success == CCCryptorStatus(kCCSuccess) {
             // Hooray!
             let d = Data(bytes: b, count: Int(copied))
-            let s = NSString(data: d, encoding: String.Encoding.utf8.rawValue)
+            let s = String(data: d, encoding: .utf8)
             b.deallocate(bytes: byteCount, alignedTo: MemoryLayout<Void>.size)
-            return s as String?
+            return s
         }
 
         b.deallocate(bytes: byteCount, alignedTo: MemoryLayout<Void>.size)
@@ -172,16 +170,29 @@ open class KeyBundle: Hashable {
     open func serializer<T: CleartextPayloadJSON>(_ f: @escaping (T) -> JSON) -> (Record<T>) -> JSON? {
         return { (record: Record<T>) -> JSON? in
             let json = f(record.payload)
-            let data = (json.rawString([writtingOptionsKeys.castNilToNSNull: true]) ?? "").utf8EncodedData
+            if json.isNull() {
+                // This should never happen, but if it does, we don't want to leak this
+                // record to the server!
+                return nil
+            }
+            // Get the most basic kind of encoding: no pretty printing.
+            // This can throw; if so, we return nil.
+            // `rawData` simply calls JSONSerialization.dataWithJSONObject:options:error, which
+            // guarantees UTF-8 encoded output.
+
+            guard let bytes: Data = try? json.rawData(options: []) else { return nil }
+
+            // Given a valid non-null JSON object, we don't ever expect a round-trip to fail.
+            assert(!JSON(bytes).isNull())
 
             // We pass a null IV, which means "generate me a new one".
             // We then include the generated IV in the resulting record.
-            if let (ciphertext, iv) = self.encrypt(data, iv: nil) {
+            if let (ciphertext, iv) = self.encrypt(bytes, iv: nil) {
                 // So we have the encrypted payload. Now let's build the envelope around it.
                 let ciphertext = ciphertext.base64EncodedString
 
                 // The HMAC is computed over the base64 string. As bytes. Yes, I know.
-                if let encodedCiphertextBytes = ciphertext.data(using: String.Encoding.ascii, allowLossyConversion: false) {
+                if let encodedCiphertextBytes = ciphertext.data(using: .ascii, allowLossyConversion: false) {
                     let hmac = self.hmacString(encodedCiphertextBytes)
                     let iv = iv.base64EncodedString
 
@@ -207,12 +218,12 @@ open class KeyBundle: Hashable {
     open var hashValue: Int {
         return "\(self.encKey.base64EncodedString) \(self.hmacKey.base64EncodedString)".hashValue
     }
+
+    public static func ==(lhs: KeyBundle, rhs: KeyBundle) -> Bool {
+        return lhs.encKey == rhs.encKey && lhs.hmacKey == rhs.hmacKey
+    }
 }
 
-public func == (lhs: KeyBundle, rhs: KeyBundle) -> Bool {
-    return (lhs.encKey == rhs.encKey) &&
-           (lhs.hmacKey == rhs.hmacKey)
-}
 
 open class Keys: Equatable {
     let valid: Bool
@@ -225,13 +236,12 @@ open class Keys: Equatable {
     }
 
     public init(payload: KeysPayload?) {
-        if let payload = payload, payload.isValid() {
-            if let keys = payload.defaultKeys {
-                self.defaultBundle = keys
-                self.collectionKeys = payload.collectionKeys
-                self.valid = true
-                return
-            }
+        if let payload = payload, payload.isValid(),
+            let keys = payload.defaultKeys {
+            self.defaultBundle = keys
+            self.collectionKeys = payload.collectionKeys
+            self.valid = true
+            return
         }
         self.defaultBundle = KeyBundle.invalid
         self.valid = false
@@ -254,7 +264,7 @@ open class Keys: Equatable {
         return defaultBundle
     }
 
-    open func encrypter<T: CleartextPayloadJSON>(_ collection: String, encoder: RecordEncoder<T>) -> RecordEncrypter<T> {
+    open func encrypter<T>(_ collection: String, encoder: RecordEncoder<T>) -> RecordEncrypter<T> {
         return RecordEncrypter(bundle: forCollection(collection), encoder: encoder)
     }
 
@@ -266,6 +276,12 @@ open class Keys: Equatable {
             "collections": mapValues(self.collectionKeys, f: { $0.asPair() })
         ])
         return KeysPayload(json)
+    }
+
+    public static func ==(lhs: Keys, rhs: Keys) -> Bool {
+        return lhs.valid == rhs.valid &&
+            lhs.defaultBundle == rhs.defaultBundle &&
+            lhs.collectionKeys == rhs.collectionKeys
     }
 }
 
@@ -292,8 +308,4 @@ public struct RecordEncrypter<T: CleartextPayloadJSON> {
     }
 }
 
-public func ==(lhs: Keys, rhs: Keys) -> Bool {
-    return lhs.valid == rhs.valid &&
-           lhs.defaultBundle == rhs.defaultBundle &&
-           lhs.collectionKeys == rhs.collectionKeys
-}
+

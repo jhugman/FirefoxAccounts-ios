@@ -4,6 +4,7 @@
 
 import Foundation
 import Shared
+import Storage
 import XCGLogger
 import Deferred
 
@@ -14,7 +15,7 @@ private let log = Logger.syncLogger
  * expose notification functionality in this way.
  */
 public protocol SyncDelegate {
-    func displaySentTabForURL(_ URL: URL, title: String)
+    func displaySentTab(for url: URL, title: String, from deviceName: String?)
     // TODO: storage.
 }
 
@@ -31,9 +32,17 @@ public protocol SyncDelegate {
  *
  * Persisted long-term/local data is kept, and will later be reconciled as appropriate.
  */
-
 public protocol ResettableSynchronizer {
     static func resetSynchronizerWithStorage(_ storage: ResettableSyncStorage, basePrefs: Prefs, collection: String) -> Success
+}
+
+/**
+ * This is a delegate that allows synchronizers to notify other devices in the Sync account
+ * that a collection changed.
+ */
+public protocol CollectionChangedNotifier {
+    func notify(deviceIDs: [GUID], collectionsChanged collections: [String], reason: String) -> Success
+    func notifyAll(collectionsChanged collections: [String], reason: String) -> Success
 }
 
 // TODO: return values?
@@ -57,7 +66,7 @@ public protocol ResettableSynchronizer {
  * pickle instructions for eventual delivery next time one is made and synchronized…
  */
 public protocol Synchronizer {
-    init(scratchpad: Scratchpad, delegate: SyncDelegate, basePrefs: Prefs)
+    init(scratchpad: Scratchpad, delegate: SyncDelegate, basePrefs: Prefs, why: SyncReason)
 
     /**
      * Return a reason if the current state of this synchronizer -- particularly prefs and scratchpad --
@@ -76,9 +85,9 @@ public protocol Synchronizer {
  * for batch scheduling, success-case backoff and so on.
  */
 public enum SyncStatus {
-    case completed
+    case completed(SyncEngineStatsSession)
     case notStarted(SyncNotStartedReason)
-    case partial
+    case partial(SyncEngineStatsSession)
 
     public var description: String {
         switch self {
@@ -94,6 +103,10 @@ public enum SyncStatus {
 
 public typealias DeferredTimestamp = Deferred<Maybe<Timestamp>>
 public typealias SyncResult = Deferred<Maybe<SyncStatus>>
+public typealias EngineIdentifier = String
+public typealias EngineStatus = (EngineIdentifier, SyncStatus)
+public typealias EngineResults = [EngineStatus]
+public typealias SyncOperationResult = (engineResults: Maybe<EngineResults>, stats: SyncOperationStatsSession?)
 
 public enum SyncNotStartedReason {
     case noAccount
@@ -108,6 +121,33 @@ public enum SyncNotStartedReason {
     case redLight
     case unknown                             // Likely a programming error.
 
+    var telemetryId: String {
+        switch self {
+        case .noAccount:
+            return "sync.not_started.reason.no_account"
+        case .offline:
+            return "sync.not_started.reason.offline"
+        case .backoff(_):
+            return "sync.not_started.reason.backoff"
+        case .engineRemotelyNotEnabled(_):
+            return "sync.not_started.reason.remotely_not_enabled"
+        case .engineFormatOutdated(_):
+            return "sync.not_started.reason.format_outdated"
+        case .engineFormatTooNew(_):   // This'll disappear eventually; we'll wipe the server and upload m/g.
+            return "sync.not_started.reason.format_too_new"
+        case .storageFormatOutdated(_):
+            return "sync.not_started.reason.storage_format_outdated"
+        case .storageFormatTooNew(_):  // This'll disappear eventually; we'll wipe the server and upload m/g.
+            return "sync.not_started.reason.storage_format_too_new"
+        case .stateMachineNotReady:                // Because we're not done implementing.
+            return "sync.not_started.reason.state_machine_not_ready"
+        case .redLight:
+            return "sync.not_started.reason.red_light"
+        case .unknown:                             // Likely a programming error
+            return "sync.not_started.reason.unknown"
+        }
+    }
+
     var description: String {
         switch self {
         case .noAccount:
@@ -119,7 +159,6 @@ public enum SyncNotStartedReason {
         }
     }
 }
-public protocol SyncError: MaybeErrorType {}
 
 open class FatalError: SyncError {
     let message: String
@@ -133,7 +172,7 @@ open class FatalError: SyncError {
 }
 
 public protocol SingleCollectionSynchronizer {
-  func remoteHasChanges(_ info: InfoCollections) -> Bool
+    func remoteHasChanges(_ info: InfoCollections) -> Bool
 }
 
 open class BaseCollectionSynchronizer {
@@ -141,21 +180,25 @@ open class BaseCollectionSynchronizer {
 
     let scratchpad: Scratchpad
     let delegate: SyncDelegate
+    let basePrefs: Prefs
     let prefs: Prefs
+    let why: SyncReason
 
-//    var statsSession: SyncEngineStatsSession
+    var statsSession: SyncEngineStatsSession
 
     static func prefsForCollection(_ collection: String, withBasePrefs basePrefs: Prefs) -> Prefs {
         let branchName = "synchronizer." + collection + "."
         return basePrefs.branch(branchName)
     }
 
-    init(scratchpad: Scratchpad, delegate: SyncDelegate, basePrefs: Prefs, collection: String) {
+    init(scratchpad: Scratchpad, delegate: SyncDelegate, basePrefs: Prefs, why: SyncReason, collection: String) {
         self.scratchpad = scratchpad
         self.delegate = delegate
         self.collection = collection
+        self.basePrefs = basePrefs
         self.prefs = BaseCollectionSynchronizer.prefsForCollection(collection, withBasePrefs: basePrefs)
-//        self.statsSession = SyncEngineStatsSession(collection: collection)
+        self.statsSession = SyncEngineStatsSession(collection: collection)
+        self.why = why
 
         log.info("Synchronizer configured with prefs '\(self.prefs.getBranchPrefix()).'")
     }
@@ -165,12 +208,10 @@ open class BaseCollectionSynchronizer {
         return 0
     }
 
-    /*
     // Short-hand for returning .Complete status + recorded stats
     var completedWithStats: SyncStatus {
         return .completed(statsSession.end())
     }
- */
 
     open func reasonToNotSync(_ client: Sync15StorageClient) -> SyncNotStartedReason? {
         let now = Date.now()

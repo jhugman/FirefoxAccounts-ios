@@ -20,14 +20,12 @@
 		230A30D31ED4E2BD006D0B0E /* URLRequestExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230A30D21ED4E2BD006D0B0E /* URLRequestExtensions.swift */; };
 		230A30D51ED4E2CF006D0B0E /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230A30D41ED4E2CF006D0B0E /* Functions.swift */; };
 		230A30D91ED4E498006D0B0E /* Synchronizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230A30D81ED4E498006D0B0E /* Synchronizer.swift */; };
-		230A30DC1ED4E681006D0B0E /* Syncable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230A30DB1ED4E681006D0B0E /* Syncable.swift */; };
 		230A30E11ED647CF006D0B0E /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230A30E01ED647CF006D0B0E /* State.swift */; };
 		230A30E41ED65658006D0B0E /* Info.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230A30E21ED65658006D0B0E /* Info.swift */; };
 		230A30E51ED65658006D0B0E /* SyncMeta.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230A30E31ED65658006D0B0E /* SyncMeta.swift */; };
 		230A30E71ED79967006D0B0E /* Downloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230A30E61ED79967006D0B0E /* Downloader.swift */; };
 		230A30E91ED79EE4006D0B0E /* NSScannerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230A30E81ED79EE4006D0B0E /* NSScannerExtensions.swift */; };
 		230A30EB1ED79F43006D0B0E /* BatchingClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230A30EA1ED79F43006D0B0E /* BatchingClient.swift */; };
-		230DFB371EA05FF70051A811 /* FirefoxAccountConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23EDF0211E9EE74500F530CF /* FirefoxAccountConfiguration.swift */; };
 		230DFB381EA063280051A811 /* FxA.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 230DFB281EA05D530051A811 /* FxA.framework */; };
 		230DFB5D1EA16C0E0051A811 /* JSONExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230DFB5C1EA16C0E0051A811 /* JSONExtensions.swift */; };
 		230DFB621EA16D400051A811 /* HashExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230DFB5F1EA16D400051A811 /* HashExtensions.swift */; };
@@ -57,7 +55,6 @@
 		230DFBB81EA56D8C0051A811 /* AlamofireExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230DFBB71EA56D8C0051A811 /* AlamofireExtensions.swift */; };
 		230DFBBB1EA5709F0051A811 /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230DFBB91EA5709F0051A811 /* AppConstants.swift */; };
 		230DFBBC1EA5709F0051A811 /* NotificationConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230DFBBA1EA5709F0051A811 /* NotificationConstants.swift */; };
-		230DFBD21EA6C7940051A811 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 230DFBD11EA6C7940051A811 /* Info.plist */; };
 		230DFBFF1EAEAC4B0051A811 /* NSLayoutConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230DFBFE1EAEAC4B0051A811 /* NSLayoutConstraint.swift */; };
 		230DFC031EAECB160051A811 /* FxASignIn.js in Resources */ = {isa = PBXBuildFile; fileRef = 230DFC011EAECB090051A811 /* FxASignIn.js */; };
 		2314BA881EE632F30080ECA2 /* FxASyncClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2314BA871EE632F30080ECA2 /* FxASyncClient.swift */; };
@@ -99,6 +96,18 @@
 		23EDF0711E9EFE6500F530CF /* NSFileManagerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23EDF0701E9EFE6500F530CF /* NSFileManagerExtensions.swift */; };
 		23EDF0731E9EFF3900F530CF /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23EDF0721E9EFF3900F530CF /* StringExtensions.swift */; };
 		23EDF0751E9F006200F530CF /* ArrayExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23EDF0741E9F006200F530CF /* ArrayExtensions.swift */; };
+		393F56E62075375500083ADF /* LoginsSynchronizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393F56E42075375400083ADF /* LoginsSynchronizer.swift */; };
+		393F56E92075377000083ADF /* SyncTelemetryUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393F56E72075376F00083ADF /* SyncTelemetryUtils.swift */; };
+		393F56EA2075377000083ADF /* SyncStateMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393F56E82075376F00083ADF /* SyncStateMachine.swift */; };
+		393F56F92075577300083ADF /* Logins.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393F56F3207550C000083ADF /* Logins.swift */; };
+		393F56FD207558D300083ADF /* Cursor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393F56FB2075587100083ADF /* Cursor.swift */; };
+		393F56FE2075597600083ADF /* Syncable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230A30DB1ED4E681006D0B0E /* Syncable.swift */; };
+		393F56FF20755A3A00083ADF /* Shared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23EDEFDE1E9EE72B00F530CF /* Shared.framework */; };
+		393F5700207573F500083ADF /* SyncStatusResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393F56F5207553A500083ADF /* SyncStatusResolver.swift */; };
+		393F57022075749E00083ADF /* LoginPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393F57012075749D00083ADF /* LoginPayload.swift */; };
+		393F5704207574FA00083ADF /* IndependentRecordSynchronizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393F5703207574FA00083ADF /* IndependentRecordSynchronizer.swift */; };
+		393F57062075788000083ADF /* RemoteDevices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393F57052075788000083ADF /* RemoteDevices.swift */; };
+		393F570820757B2C00083ADF /* OptionalExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393F570720757B2B00083ADF /* OptionalExtensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -285,6 +294,16 @@
 		23EDF0701E9EFE6500F530CF /* NSFileManagerExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NSFileManagerExtensions.swift; path = Extensions/NSFileManagerExtensions.swift; sourceTree = "<group>"; };
 		23EDF0721E9EFF3900F530CF /* StringExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StringExtensions.swift; path = Extensions/StringExtensions.swift; sourceTree = "<group>"; };
 		23EDF0741E9F006200F530CF /* ArrayExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ArrayExtensions.swift; path = Extensions/ArrayExtensions.swift; sourceTree = "<group>"; };
+		393F56E42075375400083ADF /* LoginsSynchronizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginsSynchronizer.swift; sourceTree = "<group>"; };
+		393F56E72075376F00083ADF /* SyncTelemetryUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SyncTelemetryUtils.swift; sourceTree = "<group>"; };
+		393F56E82075376F00083ADF /* SyncStateMachine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SyncStateMachine.swift; sourceTree = "<group>"; };
+		393F56F3207550C000083ADF /* Logins.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logins.swift; sourceTree = "<group>"; };
+		393F56F5207553A500083ADF /* SyncStatusResolver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SyncStatusResolver.swift; path = Providers/SyncStatusResolver.swift; sourceTree = "<group>"; };
+		393F56FB2075587100083ADF /* Cursor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Cursor.swift; path = Storage/Cursor.swift; sourceTree = SOURCE_ROOT; };
+		393F57012075749D00083ADF /* LoginPayload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginPayload.swift; sourceTree = "<group>"; };
+		393F5703207574FA00083ADF /* IndependentRecordSynchronizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndependentRecordSynchronizer.swift; sourceTree = "<group>"; };
+		393F57052075788000083ADF /* RemoteDevices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteDevices.swift; sourceTree = "<group>"; };
+		393F570720757B2B00083ADF /* OptionalExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OptionalExtensions.swift; path = Extensions/OptionalExtensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -300,6 +319,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				393F56FF20755A3A00083ADF /* Shared.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -374,6 +394,8 @@
 				230A30C51ED4E071006D0B0E /* Records */,
 				230A30C31ED4D792006D0B0E /* KeyBundle.swift */,
 				230A30C01ED3CCE0006D0B0E /* StorageClient.swift */,
+				393F56E82075376F00083ADF /* SyncStateMachine.swift */,
+				393F56E72075376F00083ADF /* SyncTelemetryUtils.swift */,
 				230A30B51ED3CC42006D0B0E /* Sync.h */,
 				230A30B61ED3CC42006D0B0E /* Info.plist */,
 			);
@@ -383,6 +405,7 @@
 		230A30C51ED4E071006D0B0E /* Records */ = {
 			isa = PBXGroup;
 			children = (
+				393F57012075749D00083ADF /* LoginPayload.swift */,
 				230A30CE1ED4E193006D0B0E /* EncryptedJSON.swift */,
 				230A30CC1ED4E127006D0B0E /* CleartextPayloadJSON.swift */,
 				230A30C81ED4E0CA006D0B0E /* EnvelopeJSON.swift */,
@@ -395,7 +418,9 @@
 		230A30D71ED4E498006D0B0E /* Synchronizers */ = {
 			isa = PBXGroup;
 			children = (
+				393F5703207574FA00083ADF /* IndependentRecordSynchronizer.swift */,
 				230A30E61ED79967006D0B0E /* Downloader.swift */,
+				393F56E42075375400083ADF /* LoginsSynchronizer.swift */,
 				230A30D81ED4E498006D0B0E /* Synchronizer.swift */,
 			);
 			path = Synchronizers;
@@ -404,6 +429,8 @@
 		230A30DA1ED4E681006D0B0E /* Storage */ = {
 			isa = PBXGroup;
 			children = (
+				393F56FB2075587100083ADF /* Cursor.swift */,
+				393F56F3207550C000083ADF /* Logins.swift */,
 				230A30DB1ED4E681006D0B0E /* Syncable.swift */,
 			);
 			path = Storage;
@@ -476,6 +503,7 @@
 			children = (
 				230DFBC31EA5943E0051A811 /* NSUserDefaultsPrefs.swift */,
 				230DFBC41EA5943E0051A811 /* Profile.swift */,
+				393F56F5207553A500083ADF /* SyncStatusResolver.swift */,
 			);
 			name = Providers;
 			sourceTree = "<group>";
@@ -573,6 +601,7 @@
 		23EDEFDF1E9EE72B00F530CF /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				393F57052075788000083ADF /* RemoteDevices.swift */,
 				230A30D41ED4E2CF006D0B0E /* Functions.swift */,
 				230DFBFE1EAEAC4B0051A811 /* NSLayoutConstraint.swift */,
 				230DFBD11EA6C7940051A811 /* Info.plist */,
@@ -617,6 +646,7 @@
 		23EDF0471E9EF42E00F530CF /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				393F570720757B2B00083ADF /* OptionalExtensions.swift */,
 				230A30E81ED79EE4006D0B0E /* NSScannerExtensions.swift */,
 				230A30D21ED4E2BD006D0B0E /* URLRequestExtensions.swift */,
 				230DFBB71EA56D8C0051A811 /* AlamofireExtensions.swift */,
@@ -855,7 +885,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0830;
-				LastUpgradeCheck = 0830;
+				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = "Chenxia Liu";
 				TargetAttributes = {
 					230A30B21ED3CC42006D0B0E = {
@@ -1001,7 +1031,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				230DFBD21EA6C7940051A811 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1057,20 +1086,24 @@
 			buildActionMask = 2147483647;
 			files = (
 				230A30C11ED3CCE0006D0B0E /* StorageClient.swift in Sources */,
+				393F5704207574FA00083ADF /* IndependentRecordSynchronizer.swift in Sources */,
 				230A30CD1ED4E127006D0B0E /* CleartextPayloadJSON.swift in Sources */,
 				230A30CA1ED4E0CA006D0B0E /* EnvelopeJSON.swift in Sources */,
 				230A30E11ED647CF006D0B0E /* State.swift in Sources */,
 				230A30D11ED4E24B006D0B0E /* RequestExtensions.swift in Sources */,
-				230A30DC1ED4E681006D0B0E /* Syncable.swift in Sources */,
 				230A30EB1ED79F43006D0B0E /* BatchingClient.swift in Sources */,
 				230A30CB1ED4E0CA006D0B0E /* KeysPayload.swift in Sources */,
+				393F56EA2075377000083ADF /* SyncStateMachine.swift in Sources */,
 				230A30E51ED65658006D0B0E /* SyncMeta.swift in Sources */,
 				230A30E71ED79967006D0B0E /* Downloader.swift in Sources */,
 				230A30D91ED4E498006D0B0E /* Synchronizer.swift in Sources */,
 				230A30CF1ED4E193006D0B0E /* EncryptedJSON.swift in Sources */,
 				230A30E41ED65658006D0B0E /* Info.swift in Sources */,
+				393F56E62075375500083ADF /* LoginsSynchronizer.swift in Sources */,
 				230A30C41ED4D792006D0B0E /* KeyBundle.swift in Sources */,
 				230A30C71ED4E071006D0B0E /* Record.swift in Sources */,
+				393F57022075749E00083ADF /* LoginPayload.swift in Sources */,
+				393F56E92075377000083ADF /* SyncTelemetryUtils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1078,6 +1111,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				393F56F92075577300083ADF /* Logins.swift in Sources */,
+				393F56FD207558D300083ADF /* Cursor.swift in Sources */,
+				393F56FE2075597600083ADF /* Syncable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1087,6 +1123,7 @@
 			files = (
 				2314BA881EE632F30080ECA2 /* FxASyncClient.swift in Sources */,
 				23511E201EE5DB66002B5507 /* NSUserDefaultsPrefs.swift in Sources */,
+				393F5700207573F500083ADF /* SyncStatusResolver.swift in Sources */,
 				23511E161EE23A88002B5507 /* FxAViewController.swift in Sources */,
 				23511E1F1EE5DB5C002B5507 /* Profile.swift in Sources */,
 				23511E151EE23A88002B5507 /* FxALoginHelper.swift in Sources */,
@@ -1139,11 +1176,13 @@
 				230DFB621EA16D400051A811 /* HashExtensions.swift in Sources */,
 				23EDF06E1E9EFE1A00F530CF /* NSStringExtensions.swift in Sources */,
 				23EDF03F1E9EE76800F530CF /* RollingFileLogger.swift in Sources */,
+				393F570820757B2C00083ADF /* OptionalExtensions.swift in Sources */,
 				230DFB6E1EA183A20051A811 /* AppInfo.swift in Sources */,
 				230DFB6C1EA183600051A811 /* Bytes.swift in Sources */,
 				230A30D51ED4E2CF006D0B0E /* Functions.swift in Sources */,
 				23EDF0411E9EE76800F530CF /* TimeConstants.swift in Sources */,
 				230DFB741EA185140051A811 /* Reachability.swift in Sources */,
+				393F57062075788000083ADF /* RemoteDevices.swift in Sources */,
 				230DFBBB1EA5709F0051A811 /* AppConstants.swift in Sources */,
 				230DFBFF1EAEAC4B0051A811 /* NSLayoutConstraint.swift in Sources */,
 				230DFBAD1EA5607F0051A811 /* Error.swift in Sources */,
@@ -1155,7 +1194,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				230DFB371EA05FF70051A811 /* FirefoxAccountConfiguration.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1314,6 +1352,11 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(BUILD_DIR)/Release$(EFFECTIVE_PLATFORM_NAME)",
+				);
 				INFOPLIST_FILE = Storage/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -1336,6 +1379,11 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(BUILD_DIR)/Release$(EFFECTIVE_PLATFORM_NAME)",
+				);
 				INFOPLIST_FILE = Storage/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -1413,15 +1461,23 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -1464,15 +1520,23 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
