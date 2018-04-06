@@ -108,6 +108,24 @@
 		393F5704207574FA00083ADF /* IndependentRecordSynchronizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393F5703207574FA00083ADF /* IndependentRecordSynchronizer.swift */; };
 		393F57062075788000083ADF /* RemoteDevices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393F57052075788000083ADF /* RemoteDevices.swift */; };
 		393F570820757B2C00083ADF /* OptionalExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393F570720757B2B00083ADF /* OptionalExtensions.swift */; };
+		393F570A2076841600083ADF /* AuthenticationKeychainInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393F57092076841500083ADF /* AuthenticationKeychainInfo.swift */; };
+		393F570C2076866200083ADF /* SystemUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393F570B2076866200083ADF /* SystemUtils.swift */; };
+		393F570E207686FE00083ADF /* FileAccessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393F570D207686FC00083ADF /* FileAccessor.swift */; };
+		393F57372076D2BB00083ADF /* SQLiteLogins.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393F5712207689CE00083ADF /* SQLiteLogins.swift */; };
+		393F573D2076D2BB00083ADF /* Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393F5718207689CE00083ADF /* Schema.swift */; };
+		393F57432076D2BB00083ADF /* LoginsSchema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393F571E207689CE00083ADF /* LoginsSchema.swift */; };
+		393F57492076D3F500083ADF /* SwiftData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393F57472076D3D200083ADF /* SwiftData.swift */; };
+		393F574B2076DC2500083ADF /* Cancellable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393F574A2076DC2400083ADF /* Cancellable.swift */; };
+		393F57532076DD2400083ADF /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 393F57512076DCEF00083ADF /* libsqlcipher.a */; };
+		393F57552076EAD000083ADF /* Storage-Bridging-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = 393F57542076EACF00083ADF /* Storage-Bridging-Header.h */; };
+		393F57562076EAD600083ADF /* Storage-Bridging-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = 393F57542076EACF00083ADF /* Storage-Bridging-Header.h */; };
+		393F57592076EC1100083ADF /* BrowserDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393F57572076EC0A00083ADF /* BrowserDB.swift */; };
+		393F57602076ECA100083ADF /* DatabaseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393F575F2076ECA100083ADF /* DatabaseError.swift */; };
+		393F57622076F2BF00083ADF /* FakeSentry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393F57612076F2BF00083ADF /* FakeSentry.swift */; };
+		393F57652077A19D00083ADF /* FSUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 393F57632077A19600083ADF /* FSUtils.h */; };
+		393F57662077A19D00083ADF /* FSUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 393F57642077A19C00083ADF /* FSUtils.m */; };
+		393F57692077A22800083ADF /* WeakList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393F57672077A22100083ADF /* WeakList.swift */; };
+		393F576A2077A22800083ADF /* GeneralUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393F57682077A22700083ADF /* GeneralUtils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -187,6 +205,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 23EAF62C1E9DAEB100C6EBAB;
 			remoteInfo = "fxa-ios";
+		};
+		393F57502076DCEF00083ADF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 393F574C2076DCEE00083ADF /* sqlcipher.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D2AAC046055464E500DB518D;
+			remoteInfo = sqlcipher;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -304,6 +329,23 @@
 		393F5703207574FA00083ADF /* IndependentRecordSynchronizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndependentRecordSynchronizer.swift; sourceTree = "<group>"; };
 		393F57052075788000083ADF /* RemoteDevices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteDevices.swift; sourceTree = "<group>"; };
 		393F570720757B2B00083ADF /* OptionalExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OptionalExtensions.swift; path = Extensions/OptionalExtensions.swift; sourceTree = "<group>"; };
+		393F57092076841500083ADF /* AuthenticationKeychainInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationKeychainInfo.swift; sourceTree = "<group>"; };
+		393F570B2076866200083ADF /* SystemUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SystemUtils.swift; sourceTree = "<group>"; };
+		393F570D207686FC00083ADF /* FileAccessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FileAccessor.swift; path = Storage/FileAccessor.swift; sourceTree = SOURCE_ROOT; };
+		393F5712207689CE00083ADF /* SQLiteLogins.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLiteLogins.swift; sourceTree = "<group>"; };
+		393F5718207689CE00083ADF /* Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Schema.swift; sourceTree = "<group>"; };
+		393F571E207689CE00083ADF /* LoginsSchema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginsSchema.swift; sourceTree = "<group>"; };
+		393F57472076D3D200083ADF /* SwiftData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftData.swift; sourceTree = "<group>"; };
+		393F574A2076DC2400083ADF /* Cancellable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cancellable.swift; sourceTree = "<group>"; };
+		393F574C2076DCEE00083ADF /* sqlcipher.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = sqlcipher.xcodeproj; path = ThirdParty/sqlcipher/sqlcipher.xcodeproj; sourceTree = "<group>"; };
+		393F57542076EACF00083ADF /* Storage-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Storage-Bridging-Header.h"; path = "Storage/Storage-Bridging-Header.h"; sourceTree = SOURCE_ROOT; };
+		393F57572076EC0A00083ADF /* BrowserDB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowserDB.swift; sourceTree = "<group>"; };
+		393F575F2076ECA100083ADF /* DatabaseError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DatabaseError.swift; path = Storage/DatabaseError.swift; sourceTree = SOURCE_ROOT; };
+		393F57612076F2BF00083ADF /* FakeSentry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeSentry.swift; sourceTree = "<group>"; };
+		393F57632077A19600083ADF /* FSUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSUtils.h; sourceTree = "<group>"; };
+		393F57642077A19C00083ADF /* FSUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSUtils.m; sourceTree = "<group>"; };
+		393F57672077A22100083ADF /* WeakList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeakList.swift; sourceTree = "<group>"; };
+		393F57682077A22700083ADF /* GeneralUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneralUtils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -319,6 +361,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				393F57532076DD2400083ADF /* libsqlcipher.a in Frameworks */,
 				393F56FF20755A3A00083ADF /* Shared.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -429,6 +472,11 @@
 		230A30DA1ED4E681006D0B0E /* Storage */ = {
 			isa = PBXGroup;
 			children = (
+				393F575F2076ECA100083ADF /* DatabaseError.swift */,
+				393F57542076EACF00083ADF /* Storage-Bridging-Header.h */,
+				393F57462076D3D200083ADF /* ThirdParty */,
+				393F570F207689CE00083ADF /* SQL */,
+				393F570D207686FC00083ADF /* FileAccessor.swift */,
 				393F56FB2075587100083ADF /* Cursor.swift */,
 				393F56F3207550C000083ADF /* Logins.swift */,
 				230A30DB1ED4E681006D0B0E /* Syncable.swift */,
@@ -449,6 +497,7 @@
 		230DFB211EA05D360051A811 /* ThirdParty */ = {
 			isa = PBXGroup;
 			children = (
+				393F574C2076DCEE00083ADF /* sqlcipher.xcodeproj */,
 				230DFBA21EA1A5110051A811 /* Box */,
 				230DFB731EA185140051A811 /* Reachability.swift */,
 				230DFB501EA0709D0051A811 /* Result */,
@@ -601,6 +650,13 @@
 		23EDEFDF1E9EE72B00F530CF /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				393F57682077A22700083ADF /* GeneralUtils.swift */,
+				393F57672077A22100083ADF /* WeakList.swift */,
+				393F57632077A19600083ADF /* FSUtils.h */,
+				393F57642077A19C00083ADF /* FSUtils.m */,
+				393F574A2076DC2400083ADF /* Cancellable.swift */,
+				393F570B2076866200083ADF /* SystemUtils.swift */,
+				393F57092076841500083ADF /* AuthenticationKeychainInfo.swift */,
 				393F57052075788000083ADF /* RemoteDevices.swift */,
 				230A30D41ED4E2CF006D0B0E /* Functions.swift */,
 				230DFBFE1EAEAC4B0051A811 /* NSLayoutConstraint.swift */,
@@ -619,6 +675,7 @@
 				23EDF0391E9EE76800F530CF /* Logger.swift */,
 				23EDF03A1E9EE76800F530CF /* RollingFileLogger.swift */,
 				23EDF03C1E9EE76800F530CF /* TimeConstants.swift */,
+				393F57612076F2BF00083ADF /* FakeSentry.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -665,6 +722,35 @@
 			name = Extensions;
 			sourceTree = "<group>";
 		};
+		393F570F207689CE00083ADF /* SQL */ = {
+			isa = PBXGroup;
+			children = (
+				393F57572076EC0A00083ADF /* BrowserDB.swift */,
+				393F5712207689CE00083ADF /* SQLiteLogins.swift */,
+				393F5718207689CE00083ADF /* Schema.swift */,
+				393F571E207689CE00083ADF /* LoginsSchema.swift */,
+			);
+			name = SQL;
+			path = Storage/SQL;
+			sourceTree = SOURCE_ROOT;
+		};
+		393F57462076D3D200083ADF /* ThirdParty */ = {
+			isa = PBXGroup;
+			children = (
+				393F57472076D3D200083ADF /* SwiftData.swift */,
+			);
+			name = ThirdParty;
+			path = Storage/ThirdParty;
+			sourceTree = SOURCE_ROOT;
+		};
+		393F574D2076DCEE00083ADF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				393F57512076DCEF00083ADF /* libsqlcipher.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -673,6 +759,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				230A30B71ED3CC42006D0B0E /* Sync.h in Headers */,
+				393F57552076EAD000083ADF /* Storage-Bridging-Header.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -680,6 +767,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				393F57562076EAD600083ADF /* Storage-Bridging-Header.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -696,6 +784,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				230DFB8A1EA18E880051A811 /* Shared-Bridging-Header.h in Headers */,
+				393F57652077A19D00083ADF /* FSUtils.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -953,6 +1042,10 @@
 					ProductGroup = 230DFB231EA05D520051A811 /* Products */;
 					ProjectRef = 230DFB221EA05D520051A811 /* FxA.xcodeproj */;
 				},
+				{
+					ProductGroup = 393F574D2076DCEE00083ADF /* Products */;
+					ProjectRef = 393F574C2076DCEE00083ADF /* sqlcipher.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -982,6 +1075,13 @@
 			fileType = wrapper.cfbundle;
 			path = FxATests.xctest;
 			remoteRef = 230DFB291EA05D530051A811 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		393F57512076DCEF00083ADF /* libsqlcipher.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libsqlcipher.a;
+			remoteRef = 393F57502076DCEF00083ADF /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -1111,9 +1211,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				393F570E207686FE00083ADF /* FileAccessor.swift in Sources */,
 				393F56F92075577300083ADF /* Logins.swift in Sources */,
+				393F57372076D2BB00083ADF /* SQLiteLogins.swift in Sources */,
+				393F573D2076D2BB00083ADF /* Schema.swift in Sources */,
 				393F56FD207558D300083ADF /* Cursor.swift in Sources */,
+				393F57592076EC1100083ADF /* BrowserDB.swift in Sources */,
+				393F57492076D3F500083ADF /* SwiftData.swift in Sources */,
 				393F56FE2075597600083ADF /* Syncable.swift in Sources */,
+				393F57432076D2BB00083ADF /* LoginsSchema.swift in Sources */,
+				393F57602076ECA100083ADF /* DatabaseError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1153,16 +1260,19 @@
 			files = (
 				230DFBB81EA56D8C0051A811 /* AlamofireExtensions.swift in Sources */,
 				230A30D31ED4E2BD006D0B0E /* URLRequestExtensions.swift in Sources */,
+				393F576A2077A22800083ADF /* GeneralUtils.swift in Sources */,
 				230DFB721EA184070051A811 /* Prefs.swift in Sources */,
 				230A30E91ED79EE4006D0B0E /* NSScannerExtensions.swift in Sources */,
 				230DFB6A1EA1830C0051A811 /* KeychainWrapperExtensions.swift in Sources */,
 				230DFB641EA16D400051A811 /* NSCoderExtensions.swift in Sources */,
 				230DFBA91EA1A5110051A811 /* BoxType.swift in Sources */,
+				393F57622076F2BF00083ADF /* FakeSentry.swift in Sources */,
 				23EDF06F1E9EFE1A00F530CF /* NSURLExtensions.swift in Sources */,
 				23EDF03E1E9EE76800F530CF /* Logger.swift in Sources */,
 				230DFBA81EA1A5110051A811 /* Box.swift in Sources */,
 				230DFB631EA16D400051A811 /* HexExtensions.swift in Sources */,
 				230DFBB61EA56D640051A811 /* DeferredUtils.swift in Sources */,
+				393F57692077A22800083ADF /* WeakList.swift in Sources */,
 				230DFB671EA16D4A0051A811 /* KeychainCache.swift in Sources */,
 				23EDF0711E9EFE6500F530CF /* NSFileManagerExtensions.swift in Sources */,
 				230DFB701EA183D20051A811 /* DeviceInfo.swift in Sources */,
@@ -1173,14 +1283,18 @@
 				230DFBAB1EA1A5110051A811 /* MutableBox.swift in Sources */,
 				230DFBBC1EA5709F0051A811 /* NotificationConstants.swift in Sources */,
 				230DFB681EA16D4A0051A811 /* UserAgent.swift in Sources */,
+				393F57662077A19D00083ADF /* FSUtils.m in Sources */,
 				230DFB621EA16D400051A811 /* HashExtensions.swift in Sources */,
 				23EDF06E1E9EFE1A00F530CF /* NSStringExtensions.swift in Sources */,
 				23EDF03F1E9EE76800F530CF /* RollingFileLogger.swift in Sources */,
 				393F570820757B2C00083ADF /* OptionalExtensions.swift in Sources */,
 				230DFB6E1EA183A20051A811 /* AppInfo.swift in Sources */,
+				393F574B2076DC2500083ADF /* Cancellable.swift in Sources */,
 				230DFB6C1EA183600051A811 /* Bytes.swift in Sources */,
+				393F570C2076866200083ADF /* SystemUtils.swift in Sources */,
 				230A30D51ED4E2CF006D0B0E /* Functions.swift in Sources */,
 				23EDF0411E9EE76800F530CF /* TimeConstants.swift in Sources */,
+				393F570A2076841600083ADF /* AuthenticationKeychainInfo.swift in Sources */,
 				230DFB741EA185140051A811 /* Reachability.swift in Sources */,
 				393F57062075788000083ADF /* RemoteDevices.swift in Sources */,
 				230DFBBB1EA5709F0051A811 /* AppConstants.swift in Sources */,
@@ -1357,12 +1471,27 @@
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 					"$(BUILD_DIR)/Release$(EFFECTIVE_PLATFORM_NAME)",
 				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"SQLITE_HAS_CODEC=1",
+					"DEBUG=1",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/ThirdParty/sqlcipher",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SRCROOT)",
+					"$(SDKROOT)/usr/include/libxml2",
+					"$(BUILD_DIR)/Release$(EFFECTIVE_PLATFORM_NAME)/include/**",
+				);
 				INFOPLIST_FILE = Storage/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				OTHER_CFLAGS = "-DSQLITE_HAS_CODEC";
 				PRODUCT_BUNDLE_IDENTIFIER = allizom.Storage;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_COMPILATION_MODE = singlefile;
+				SWIFT_OBJC_BRIDGING_HEADER = "$SRCROOT/Storage/Storage-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -1384,12 +1513,24 @@
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 					"$(BUILD_DIR)/Release$(EFFECTIVE_PLATFORM_NAME)",
 				);
+				GCC_PREPROCESSOR_DEFINITIONS = "SQLITE_HAS_CODEC=1";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/ThirdParty/sqlcipher",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SRCROOT)",
+					"$(SDKROOT)/usr/include/libxml2",
+					"$(BUILD_DIR)/Release$(EFFECTIVE_PLATFORM_NAME)/include/**",
+				);
 				INFOPLIST_FILE = Storage/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				OTHER_CFLAGS = "-DSQLITE_HAS_CODEC";
 				PRODUCT_BUNDLE_IDENTIFIER = allizom.Storage;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_COMPILATION_MODE = singlefile;
+				SWIFT_OBJC_BRIDGING_HEADER = "$SRCROOT/Storage/Storage-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";

@@ -4,7 +4,26 @@
 
 import UIKit
 
+public enum AppBuildChannel: String {
+    case release = "release"
+    case beta = "beta"
+    case developer = "developer"
+}
+
 public struct AppConstants {
+
+    /// Build Channel.
+    public static let BuildChannel: AppBuildChannel = {
+        #if MOZ_CHANNEL_RELEASE
+        return AppBuildChannel.release
+        #elseif MOZ_CHANNEL_BETA
+        return AppBuildChannel.beta
+        #elseif MOZ_CHANNEL_FENNEC
+        return AppBuildChannel.developer
+        #else
+        return AppBuildChannel.developer
+        #endif
+    }()
 
     public static let FxAiOSClientId = "1b1a3e44c54fbb58"
 
