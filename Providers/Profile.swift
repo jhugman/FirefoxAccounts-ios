@@ -86,7 +86,7 @@ class CommandStoringSyncDelegate: SyncDelegate {
 /**
  * A Profile manages access to the user's data.
  */
-protocol Profile: class {
+public protocol Profile: class {
 //    var bookmarks: BookmarksModelFactorySource & KeywordSearchSource & ShareToDestination & SyncableBookmarks & LocalItemSource & MirrorItemSource { get }
     // var favicons: Favicons { get }
     var prefs: Prefs { get }
@@ -155,16 +155,16 @@ extension Profile {
     }
 }
 
-open class BrowserProfile: Profile {
+public class BrowserProfile: Profile {
     fileprivate let name: String
     fileprivate let keychain: KeychainWrapper
-    var isShutdown = false
+    public var isShutdown = false
 
     internal let files: FileAccessor
 
 //    let db: BrowserDB
     let loginsDB: BrowserDB
-    var syncManager: SyncManager!
+    public var syncManager: SyncManager!
 
     private static var loginsKey: String? {
         let key = "sqlcipher.key.logins.db"
@@ -195,7 +195,7 @@ open class BrowserProfile: Profile {
      * However, if we provide it here, it's assumed that we're initializing it from the application,
      * and initialize the logins.db.
      */
-    init(localName: String, syncDelegate: SyncDelegate? = nil, clear: Bool = false) {
+    public init(localName: String, syncDelegate: SyncDelegate? = nil, clear: Bool = false) {
         log.debug("Initing profile \(localName) on thread \(Thread.current).")
         self.name = localName
         self.files = ProfileFileAccessor(localName: localName)
@@ -257,7 +257,7 @@ open class BrowserProfile: Profile {
         }
     }
 
-    func reopen() {
+    public func reopen() {
         log.debug("Reopening profile.")
         isShutdown = false
         
@@ -265,7 +265,7 @@ open class BrowserProfile: Profile {
         loginsDB.reopenIfClosed()
     }
 
-    func shutdown() {
+    public func shutdown() {
         log.debug("Shutting down profile.")
         isShutdown = true
 
@@ -314,7 +314,7 @@ open class BrowserProfile: Profile {
         self.syncManager.endTimedSyncs()
     }
 
-    func localName() -> String {
+    public func localName() -> String {
         return name
     }
 
@@ -376,7 +376,7 @@ open class BrowserProfile: Profile {
         return NSUserDefaultsPrefs(prefix: self.localName())
     }
 
-    lazy var prefs: Prefs = {
+    public lazy var prefs: Prefs = {
         return self.makePrefs()
     }()
 
@@ -441,15 +441,15 @@ open class BrowserProfile: Profile {
 //        }
 //    }
 
-    lazy var logins: BrowserLogins & SyncableLogins & ResettableSyncStorage = {
+    public lazy var logins: BrowserLogins & SyncableLogins & ResettableSyncStorage = {
         return SQLiteLogins(db: self.loginsDB)
     }()
 
-    lazy var isChinaEdition: Bool = {
+    public lazy var isChinaEdition: Bool = {
         return Locale.current.identifier == "zh_CN"
     }()
 
-    var accountConfiguration: FirefoxAccountConfiguration {
+    public var accountConfiguration: FirefoxAccountConfiguration {
         if prefs.boolForKey("useCustomSyncService") ?? false {
             return CustomFirefoxAccountConfiguration(prefs: self.prefs)
         }
@@ -479,15 +479,15 @@ open class BrowserProfile: Profile {
         return nil
     }()
 
-    func hasAccount() -> Bool {
+    public func hasAccount() -> Bool {
         return account != nil
     }
 
-    func hasSyncableAccount() -> Bool {
+    public func hasSyncableAccount() -> Bool {
         return account?.actionNeeded == FxAActionNeeded.none
     }
 
-    func getAccount() -> FirefoxAccount? {
+    public func getAccount() -> FirefoxAccount? {
         return account
     }
 
@@ -500,7 +500,7 @@ open class BrowserProfile: Profile {
         self.keychain.setAuthenticationInfo(nil)
     }
 
-    func removeAccount() {
+    public func removeAccount() {
         let old = self.account
         removeAccountMetadata()
         self.account = nil
@@ -513,7 +513,7 @@ open class BrowserProfile: Profile {
         self.syncManager.onRemovedAccount(old)
     }
 
-    func setAccount(_ account: FirefoxAccount) {
+    public func setAccount(_ account: FirefoxAccount) {
         self.account = account
 
         flushAccount()
@@ -530,7 +530,7 @@ open class BrowserProfile: Profile {
         self.syncManager.onAddedAccount()
     }
 
-    func flushAccount() {
+    public func flushAccount() {
         if let account = account {
             self.keychain.set(account.dictionary() as NSCoding, forKey: name + ".account", withAccessibility: .afterFirstUnlock)
         }

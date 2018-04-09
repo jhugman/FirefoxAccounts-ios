@@ -44,5 +44,12 @@ public struct AppConstants {
         #endif
     }()
 
+    public static let scheme: String = {
+        guard let identifier = Bundle.main.bundleIdentifier else {
+            return "unknown"
+        }
+        return identifier.replacingOccurrences(of: "org.mozilla.ios.", with: "")
+    }()
+
     public static let PrefSendUsageData = "pref.sendUsageData"
 }

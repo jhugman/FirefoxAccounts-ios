@@ -57,7 +57,6 @@
 		230DFBBC1EA5709F0051A811 /* NotificationConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230DFBBA1EA5709F0051A811 /* NotificationConstants.swift */; };
 		230DFBFF1EAEAC4B0051A811 /* NSLayoutConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230DFBFE1EAEAC4B0051A811 /* NSLayoutConstraint.swift */; };
 		230DFC031EAECB160051A811 /* FxASignIn.js in Resources */ = {isa = PBXBuildFile; fileRef = 230DFC011EAECB090051A811 /* FxASignIn.js */; };
-		2314BA881EE632F30080ECA2 /* FxASyncClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2314BA871EE632F30080ECA2 /* FxASyncClient.swift */; };
 		231AE9B91EC68D3E00397F24 /* ExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 231AE9B81EC68D3E00397F24 /* ExampleViewController.swift */; };
 		23511E0A1EE23A62002B5507 /* FxAUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 23511E081EE23A62002B5507 /* FxAUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		23511E151EE23A88002B5507 /* FxALoginHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23511E131EE23A88002B5507 /* FxALoginHelper.swift */; };
@@ -273,7 +272,6 @@
 		230DFBF81EA7EE380051A811 /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = Carthage/Build/iOS/SwiftyJSON.framework; sourceTree = "<group>"; };
 		230DFBFE1EAEAC4B0051A811 /* NSLayoutConstraint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NSLayoutConstraint.swift; path = Extensions/NSLayoutConstraint.swift; sourceTree = "<group>"; };
 		230DFC011EAECB090051A811 /* FxASignIn.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = FxASignIn.js; sourceTree = "<group>"; };
-		2314BA871EE632F30080ECA2 /* FxASyncClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FxASyncClient.swift; sourceTree = "<group>"; };
 		231AE9B81EC68D3E00397F24 /* ExampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExampleViewController.swift; sourceTree = "<group>"; };
 		231AEA341ECE702000397F24 /* Storage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Storage.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		23511E061EE23A62002B5507 /* FxAUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FxAUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -574,7 +572,6 @@
 				23511E141EE23A88002B5507 /* FxAViewController.swift */,
 				23511E081EE23A62002B5507 /* FxAUtils.h */,
 				23511E091EE23A62002B5507 /* Info.plist */,
-				2314BA871EE632F30080ECA2 /* FxASyncClient.swift */,
 				393F576D207BAF5A00083ADF /* Strings.swift */,
 			);
 			path = FxAUtils;
@@ -1231,7 +1228,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2314BA881EE632F30080ECA2 /* FxASyncClient.swift in Sources */,
 				23511E201EE5DB66002B5507 /* NSUserDefaultsPrefs.swift in Sources */,
 				393F5700207573F500083ADF /* SyncStatusResolver.swift in Sources */,
 				23511E161EE23A88002B5507 /* FxAViewController.swift in Sources */,

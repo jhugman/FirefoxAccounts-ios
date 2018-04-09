@@ -50,7 +50,7 @@ public protocol FirefoxAccountConfiguration {
 
     var sync15Configuration: Sync15Configuration { get }
 
-//    var pushConfiguration: PushConfiguration { get }
+    var pushConfiguration: PushConfiguration { get }
 }
 
 public struct LatestDevFirefoxAccountConfiguration: FirefoxAccountConfiguration {
@@ -69,7 +69,7 @@ public struct LatestDevFirefoxAccountConfiguration: FirefoxAccountConfiguration 
 
     public let sync15Configuration: Sync15Configuration = StageSync15Configuration()
 
-//    public let pushConfiguration: PushConfiguration = FennecPushConfiguration()
+    public let pushConfiguration: PushConfiguration = FennecPushConfiguration()
 }
 
 public struct StableDevFirefoxAccountConfiguration: FirefoxAccountConfiguration {
@@ -88,7 +88,7 @@ public struct StableDevFirefoxAccountConfiguration: FirefoxAccountConfiguration 
 
     public let sync15Configuration: Sync15Configuration = StageSync15Configuration()
 
-//    public let pushConfiguration: PushConfiguration = FennecPushConfiguration()
+    public let pushConfiguration: PushConfiguration = FennecPushConfiguration()
 }
 
 public struct StageFirefoxAccountConfiguration: FirefoxAccountConfiguration {
@@ -107,17 +107,19 @@ public struct StageFirefoxAccountConfiguration: FirefoxAccountConfiguration {
 
     public let sync15Configuration: Sync15Configuration = StageSync15Configuration()
 
-//    public var pushConfiguration: PushConfiguration {
-//        get {
-//            #if MOZ_CHANNEL_RELEASE
-//                return FirefoxStagingPushConfiguration()
-//            #elseif MOZ_CHANNEL_BETA
-//                return FirefoxBetaStagingPushConfiguration()
-//            #elseif MOZ_CHANNEL_FENNEC
-//                return FennecStagingPushConfiguration()
-//            #endif
-//        }
-//    }
+    public var pushConfiguration: PushConfiguration {
+        get {
+            #if MOZ_CHANNEL_RELEASE
+                return FirefoxStagingPushConfiguration()
+            #elseif MOZ_CHANNEL_BETA
+                return FirefoxBetaStagingPushConfiguration()
+            #elseif MOZ_CHANNEL_FENNEC
+                return FennecStagingPushConfiguration()
+            #else
+                return FirefoxStagingPushConfiguration()
+            #endif
+        }
+    }
 }
 
 public struct ProductionFirefoxAccountConfiguration: FirefoxAccountConfiguration {
@@ -136,7 +138,7 @@ public struct ProductionFirefoxAccountConfiguration: FirefoxAccountConfiguration
 
     public let sync15Configuration: Sync15Configuration = ProductionSync15Configuration()
 
-//    public let pushConfiguration: PushConfiguration = FirefoxPushConfiguration()
+    public let pushConfiguration: PushConfiguration = FirefoxPushConfiguration()
 }
 
 public struct CustomFirefoxAccountConfiguration: FirefoxAccountConfiguration {
@@ -210,7 +212,7 @@ public struct CustomFirefoxAccountConfiguration: FirefoxAccountConfiguration {
         }
     }
     
-//    public let pushConfiguration: PushConfiguration = FirefoxPushConfiguration()
+    public let pushConfiguration: PushConfiguration = FirefoxPushConfiguration()
 }
 
 public struct ChinaEditionFirefoxAccountConfiguration: FirefoxAccountConfiguration {
@@ -229,7 +231,7 @@ public struct ChinaEditionFirefoxAccountConfiguration: FirefoxAccountConfigurati
 
     public let sync15Configuration: Sync15Configuration = ChinaEditionSync15Configuration()
 
-//    public let pushConfiguration: PushConfiguration = FirefoxPushConfiguration()
+    public let pushConfiguration: PushConfiguration = FirefoxPushConfiguration()
 }
 
 public protocol Sync15Configuration {

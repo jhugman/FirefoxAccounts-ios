@@ -14,8 +14,7 @@ protocol FxAContentViewControllerDelegate: class {
 
 open class FxAViewController: UIViewController, WKNavigationDelegate, WKScriptMessageHandler {
     var fxaOptions = FxALaunchParams()
-    let profile: Profile
-    let url: URL!
+    let url: URL
     // The web view that displays content.
     var webView: WKWebView!
     weak var delegate: FxAContentViewControllerDelegate?
@@ -28,12 +27,8 @@ open class FxAViewController: UIViewController, WKNavigationDelegate, WKScriptMe
         case signOut = "sign_out"
     }
 
-    public init() {
-        let fxaLoginHelper = FxALoginHelper.sharedInstance
-        let profile = BrowserProfile(localName: "profile")
-        fxaLoginHelper.application(didLoadProfile: profile)
-        self.profile = profile
-        self.url = self.profile.accountConfiguration.signInURL
+    public init(signInURL url: URL) {
+        self.url = url
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -59,7 +54,7 @@ open class FxAViewController: UIViewController, WKNavigationDelegate, WKScriptMe
         
         NSLayoutConstraint.activate(constraints, translatesAutoresizingMaskIntoConstraints: false)
 
-        webView.load(URLRequest(url: profile.accountConfiguration.signInURL))
+        webView.load(URLRequest(url: url))
     }
 
     func makeWebView() -> WKWebView {
@@ -177,7 +172,6 @@ extension FxAViewController: FxAPushLoginDelegate {
 //                let client = FxASyncClient(token: tst, key: key)
 //                client.getHistory()
 //            }
-            self.profile.syncManager.syncEverything(why: .didLogin)
             self.dismiss(animated: true, completion: nil)
         }
     }
