@@ -3,16 +3,32 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import UIKit
+import FxAUtils
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
+    var profile: Profile!
+
+    @discardableResult func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+
+        profile = BrowserProfile(localName: "profile")
+
+        let fxaLoginHelper = FxALoginHelper.sharedInstance
+        fxaLoginHelper.application(UIApplication.shared, didLoadProfile: profile)
+
+        self.window = UIWindow(frame: UIScreen.main.bounds)
+        self.window!.backgroundColor = UIColor.white
+
+        window?.rootViewController = ExampleViewController()
+
+        return true
+    }
+
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
-        window = UIWindow()
-        window?.rootViewController = ExampleViewController()
         window?.makeKeyAndVisible()
         return true
     }
@@ -25,6 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        profile?.syncManager?.applicationDidEnterBackground()
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -33,6 +50,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        if let profile = self.profile {
+            profile.reopen()
+
+//            if profile.prefs.boolForKey(PendingAccountDisconnectedKey) ?? false {
+//                FxALoginHelper.sharedInstance.applicationDidDisconnect(application)
+//            }
+
+            profile.syncManager.applicationDidBecomeActive()
+        }
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
