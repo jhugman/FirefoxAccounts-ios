@@ -30,7 +30,7 @@ open class FxASyncClient {
 
     init(token: TokenServerToken, key: Data) {
         tokenServerToken = token
-        keyBundle = KeyBundle.fromKB(key)
+        keyBundle = KeyBundle.fromKSync(key)
 
         self.authorizer = {
             (r: URLRequest) -> URLRequest in
@@ -61,11 +61,11 @@ open class FxASyncClient {
 
 
     func fetchKeys() {
-        self.client.getCryptoKeys(keyBundle, ifUnmodifiedSince: nil).upon { result in
-            if let resp = result.successValue {
-                self.keys = Keys(payload: resp.value.payload)
-            }
-        }
+//        self.client.getCryptoKeys(keyBundle, ifUnmodifiedSince: nil).upon { result in
+//            if let resp = result.successValue {
+//                self.keys = Keys(payload: resp.value.payload)
+//            }
+//        }
     }
 
     public func getHistory() {

@@ -36,11 +36,13 @@ public struct AppConstants {
         #elseif MOZ_CHANNEL_NIGHTLY
             return false
         #elseif MOZ_CHANNEL_FENNEC
-            return true
+            return false
         #elseif MOZ_CHANNEL_AURORA
-            return true
+            return false
         #else
-            return true
+            return false
         #endif
     }()
+
+    public static let PrefSendUsageData = "pref.sendUsageData"
 }

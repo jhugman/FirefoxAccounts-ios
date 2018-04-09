@@ -91,7 +91,6 @@
 		23EDF03F1E9EE76800F530CF /* RollingFileLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23EDF03A1E9EE76800F530CF /* RollingFileLogger.swift */; };
 		23EDF0411E9EE76800F530CF /* TimeConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23EDF03C1E9EE76800F530CF /* TimeConstants.swift */; };
 		23EDF0421E9EE87800F530CF /* XCGLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23EAF6641E9ECB7E00C6EBAB /* XCGLogger.framework */; };
-		23EDF06E1E9EFE1A00F530CF /* NSStringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23EDF06C1E9EFE1A00F530CF /* NSStringExtensions.swift */; };
 		23EDF06F1E9EFE1A00F530CF /* NSURLExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23EDF06D1E9EFE1A00F530CF /* NSURLExtensions.swift */; };
 		23EDF0711E9EFE6500F530CF /* NSFileManagerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23EDF0701E9EFE6500F530CF /* NSFileManagerExtensions.swift */; };
 		23EDF0731E9EFF3900F530CF /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23EDF0721E9EFF3900F530CF /* StringExtensions.swift */; };
@@ -126,6 +125,8 @@
 		393F57662077A19D00083ADF /* FSUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 393F57642077A19C00083ADF /* FSUtils.m */; };
 		393F57692077A22800083ADF /* WeakList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393F57672077A22100083ADF /* WeakList.swift */; };
 		393F576A2077A22800083ADF /* GeneralUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393F57682077A22700083ADF /* GeneralUtils.swift */; };
+		393F576C2078230300083ADF /* AsyncReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393F576B2078230200083ADF /* AsyncReducer.swift */; };
+		393F576E207BAF5A00083ADF /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393F576D207BAF5A00083ADF /* Strings.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -314,7 +315,6 @@
 		23EDF0391E9EE76800F530CF /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		23EDF03A1E9EE76800F530CF /* RollingFileLogger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RollingFileLogger.swift; sourceTree = "<group>"; };
 		23EDF03C1E9EE76800F530CF /* TimeConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeConstants.swift; sourceTree = "<group>"; };
-		23EDF06C1E9EFE1A00F530CF /* NSStringExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NSStringExtensions.swift; path = Extensions/NSStringExtensions.swift; sourceTree = "<group>"; };
 		23EDF06D1E9EFE1A00F530CF /* NSURLExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NSURLExtensions.swift; path = Extensions/NSURLExtensions.swift; sourceTree = "<group>"; };
 		23EDF0701E9EFE6500F530CF /* NSFileManagerExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NSFileManagerExtensions.swift; path = Extensions/NSFileManagerExtensions.swift; sourceTree = "<group>"; };
 		23EDF0721E9EFF3900F530CF /* StringExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StringExtensions.swift; path = Extensions/StringExtensions.swift; sourceTree = "<group>"; };
@@ -346,6 +346,8 @@
 		393F57642077A19C00083ADF /* FSUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSUtils.m; sourceTree = "<group>"; };
 		393F57672077A22100083ADF /* WeakList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeakList.swift; sourceTree = "<group>"; };
 		393F57682077A22700083ADF /* GeneralUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneralUtils.swift; sourceTree = "<group>"; };
+		393F576B2078230200083ADF /* AsyncReducer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncReducer.swift; sourceTree = "<group>"; };
+		393F576D207BAF5A00083ADF /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -573,6 +575,7 @@
 				23511E081EE23A62002B5507 /* FxAUtils.h */,
 				23511E091EE23A62002B5507 /* Info.plist */,
 				2314BA871EE632F30080ECA2 /* FxASyncClient.swift */,
+				393F576D207BAF5A00083ADF /* Strings.swift */,
 			);
 			path = FxAUtils;
 			sourceTree = "<group>";
@@ -650,6 +653,7 @@
 		23EDEFDF1E9EE72B00F530CF /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				393F576B2078230200083ADF /* AsyncReducer.swift */,
 				393F57682077A22700083ADF /* GeneralUtils.swift */,
 				393F57672077A22100083ADF /* WeakList.swift */,
 				393F57632077A19600083ADF /* FSUtils.h */,
@@ -716,7 +720,6 @@
 				23EDF0741E9F006200F530CF /* ArrayExtensions.swift */,
 				23EDF0721E9EFF3900F530CF /* StringExtensions.swift */,
 				23EDF0701E9EFE6500F530CF /* NSFileManagerExtensions.swift */,
-				23EDF06C1E9EFE1A00F530CF /* NSStringExtensions.swift */,
 				23EDF06D1E9EFE1A00F530CF /* NSURLExtensions.swift */,
 			);
 			name = Extensions;
@@ -1234,6 +1237,7 @@
 				23511E161EE23A88002B5507 /* FxAViewController.swift in Sources */,
 				23511E1F1EE5DB5C002B5507 /* Profile.swift in Sources */,
 				23511E151EE23A88002B5507 /* FxALoginHelper.swift in Sources */,
+				393F576E207BAF5A00083ADF /* Strings.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1285,10 +1289,10 @@
 				230DFB681EA16D4A0051A811 /* UserAgent.swift in Sources */,
 				393F57662077A19D00083ADF /* FSUtils.m in Sources */,
 				230DFB621EA16D400051A811 /* HashExtensions.swift in Sources */,
-				23EDF06E1E9EFE1A00F530CF /* NSStringExtensions.swift in Sources */,
 				23EDF03F1E9EE76800F530CF /* RollingFileLogger.swift in Sources */,
 				393F570820757B2C00083ADF /* OptionalExtensions.swift in Sources */,
 				230DFB6E1EA183A20051A811 /* AppInfo.swift in Sources */,
+				393F576C2078230300083ADF /* AsyncReducer.swift in Sources */,
 				393F574B2076DC2500083ADF /* Cancellable.swift in Sources */,
 				230DFB6C1EA183600051A811 /* Bytes.swift in Sources */,
 				393F570C2076866200083ADF /* SystemUtils.swift in Sources */,

@@ -166,17 +166,18 @@ fileprivate func getJS() -> String {
 extension FxAViewController: FxAPushLoginDelegate {
     func accountLoginDidSucceed(withFlags flags: FxALoginFlags) {
         DispatchQueue.main.async {
-            let token = self.profile.getAccount()!.syncAuthState.token(Date.now(), canBeExpired: false)
-            token.upon { result in
-                print("token result!")
-                guard let tst = token.value.successValue?.token, let key = token.value.successValue?.forKey else {
-                    print("No token")
-                    return
-                }
-                // TODO: Return SyncClient object, for making get* calls
-                let client = FxASyncClient(token: tst, key: key)
-                client.getHistory()
-            }
+//            let token = self.profile.getAccount()!.syncAuthState.token(Date.now(), canBeExpired: false)
+//            token.upon { result in
+//                print("token result!")
+//                guard let tst = token.value.successValue?.token, let key = token.value.successValue?.forKey else {
+//                    print("No token")
+//                    return
+//                }
+//                // TODO: Return SyncClient object, for making get* calls
+//                let client = FxASyncClient(token: tst, key: key)
+//                client.getHistory()
+//            }
+            self.profile.syncManager.syncEverything(why: .didLogin)
             self.dismiss(animated: true, completion: nil)
         }
     }
