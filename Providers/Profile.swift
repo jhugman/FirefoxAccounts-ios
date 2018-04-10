@@ -162,7 +162,6 @@ public class BrowserProfile: Profile {
 
     internal let files: FileAccessor
 
-//    let db: BrowserDB
     let loginsDB: BrowserDB
     public var syncManager: SyncManager!
 
@@ -219,16 +218,10 @@ public class BrowserProfile: Profile {
 
         // Set up our database handles.
         self.loginsDB = BrowserDB(filename: "logins.db", secretKey: BrowserProfile.loginsKey, schema: LoginsSchema(), files: files)
-//        self.db = BrowserDB(filename: "browser.db", schema: BrowserSchema(), files: files)
 
         // This has to happen prior to the databases being opened, because opening them can trigger
         // events to which the SyncManager listens.
         self.syncManager = BrowserSyncManager(profile: self)
-
-//        let notificationCenter = NotificationCenter.default
-
-//        notificationCenter.addObserver(self, selector: #selector(onLocationChange), name: .OnLocationChange, object: nil)
-//        notificationCenter.addObserver(self, selector: #selector(onPageMetadataFetched), name: .OnPageMetadataFetched, object: nil)
 
         if isNewProfile {
             log.info("New profile. Removing old account metadata.")
@@ -260,8 +253,7 @@ public class BrowserProfile: Profile {
     public func reopen() {
         log.debug("Reopening profile.")
         isShutdown = false
-        
-//        db.reopenIfClosed()
+
         loginsDB.reopenIfClosed()
     }
 
@@ -269,44 +261,7 @@ public class BrowserProfile: Profile {
         log.debug("Shutting down profile.")
         isShutdown = true
 
-//        db.forceClose()
         loginsDB.forceClose()
-    }
-
-    @objc
-    func onLocationChange(notification: NSNotification) {
-//        if let v = notification.userInfo!["visitType"] as? Int,
-//           let visitType = VisitType(rawValue: v),
-//           let url = notification.userInfo!["url"] as? URL, !isIgnoredURL(url),
-//           let title = notification.userInfo!["title"] as? NSString {
-//            // Only record local vists if the change notification originated from a non-private tab
-//            if !(notification.userInfo!["isPrivate"] as? Bool ?? false) {
-//                // We don't record a visit if no type was specified -- that means "ignore me".
-//                let site = Site(url: url.absoluteString, title: title as String)
-//                let visit = SiteVisit(site: site, date: Date.nowMicroseconds(), type: visitType)
-//                history.addLocalVisit(visit)
-//            }
-//
-//            history.setTopSitesNeedsInvalidation()
-//        } else {
-//            log.debug("Ignoring navigation.")
-//        }
-    }
-
-    @objc
-    func onPageMetadataFetched(notification: NSNotification) {
-//        let isPrivate = notification.userInfo?["isPrivate"] as? Bool ?? true
-//        guard !isPrivate else {
-//            log.debug("Private mode - Ignoring page metadata.")
-//            return
-//        }
-//        guard let pageURL = notification.userInfo?["tabURL"] as? URL,
-//              let pageMetadata = notification.userInfo?["pageMetadata"] as? PageMetadata else {
-//            log.debug("Metadata notification doesn't contain any metadata!")
-//            return
-//        }
-//        let defaultMetadataTTL: UInt64 = 3 * 24 * 60 * 60 * 1000 // 3 days for the metadata to live
-//        self.metadata.storeMetadata(pageMetadata, forPageURL: pageURL, expireAt: defaultMetadataTTL + Date.now())
     }
 
     deinit {
@@ -318,60 +273,6 @@ public class BrowserProfile: Profile {
         return name
     }
 
-//    lazy var queue: TabQueue = {
-//        withExtendedLifetime(self.history) {
-//            return SQLiteQueue(db: self.db)
-//        }
-//    }()
-
-    /**
-     * Favicons, history, and bookmarks are all stored in one intermeshed
-     * collection of tables.
-     *
-     * Any other class that needs to access any one of these should ensure
-     * that this is initialized first.
-     */
-//    fileprivate lazy var places: BrowserHistory & Favicons & SyncableHistory & ResettableSyncStorage & HistoryRecommendations  = {
-//        return SQLiteHistory(db: self.db, prefs: self.prefs)
-//    }()
-
-//    var favicons: Favicons {
-//        return self.places
-//    }
-//
-//    var history: BrowserHistory & SyncableHistory & ResettableSyncStorage {
-//        return self.places
-//    }
-//
-//    lazy var panelDataObservers: PanelDataObservers = {
-//        return PanelDataObservers(profile: self)
-//    }()
-//
-//    lazy var metadata: Metadata = {
-//        return SQLiteMetadata(db: self.db)
-//    }()
-//
-//    var recommendations: HistoryRecommendations {
-//        return self.places
-//    }
-//
-//    lazy var bookmarks: BookmarksModelFactorySource & KeywordSearchSource & ShareToDestination & SyncableBookmarks & LocalItemSource & MirrorItemSource = {
-//        // Make sure the rest of our tables are initialized before we try to read them!
-//        // This expression is for side-effects only.
-//        withExtendedLifetime(self.places) {
-//            return MergedSQLiteBookmarks(db: self.db)
-//        }
-//    }()
-//
-//    lazy var mirrorBookmarks: BookmarkBufferStorage & BufferItemSource = {
-//        // Yeah, this is lazy. Sorry.
-//        return self.bookmarks as! MergedSQLiteBookmarks
-//    }()
-//
-//    lazy var searchEngines: SearchEngines = {
-//        return SearchEngines(prefs: self.prefs, files: self.files)
-//    }()
-
     func makePrefs() -> Prefs {
         return NSUserDefaultsPrefs(prefix: self.localName())
     }
@@ -380,66 +281,9 @@ public class BrowserProfile: Profile {
         return self.makePrefs()
     }()
 
-//        lazy var readingList: ReadingListService? = {
-//            return ReadingListService(profileStoragePath: self.files.rootPath as String)
-//        }()
-
-
-//    lazy var remoteClientsAndTabs: RemoteClientsAndTabs & ResettableSyncStorage & AccountRemovalDelegate & RemoteDevices = {
-//        return SQLiteRemoteClientsAndTabs(db: self.db)
-//    }()
-
-//    lazy var certStore: CertStore = {
-//        return CertStore()
-//    }()
-//
-//    lazy var recentlyClosedTabs: ClosedTabsStore = {
-//        return ClosedTabsStore(prefs: self.prefs)
-//    }()
-
     open func getSyncDelegate() -> SyncDelegate {
         return syncDelegate ?? CommandStoringSyncDelegate(profile: self)
     }
-//
-//    public func getClients() -> Deferred<Maybe<[RemoteClient]>> {
-//        return self.syncManager.syncClients()
-//           >>> { self.remoteClientsAndTabs.getClients() }
-//    }
-//
-//    public func getClientsAndTabs() -> Deferred<Maybe<[ClientAndTabs]>> {
-//        return self.syncManager.syncClientsThenTabs()
-//           >>> { self.remoteClientsAndTabs.getClientsAndTabs() }
-//    }
-//
-//    public func getCachedClientsAndTabs() -> Deferred<Maybe<[ClientAndTabs]>> {
-//        return self.remoteClientsAndTabs.getClientsAndTabs()
-//    }
-//
-//    func storeTabs(_ tabs: [RemoteTab]) -> Deferred<Maybe<Int>> {
-//        return self.remoteClientsAndTabs.insertOrUpdateTabs(tabs)
-//    }
-//
-//    public func sendItems(_ items: [ShareItem], toClients clients: [RemoteClient]) -> Deferred<Maybe<SyncStatus>> {
-//        let id = DeviceInfo.clientIdentifier(self.prefs)
-//        let commands = items.map { item in
-//            SyncCommand.displayURIFromShareItem(item, asClient: id)
-//        }
-//
-//        func notifyClients() {
-//            let deviceIDs = clients.flatMap { $0.fxaDeviceId }
-//            guard let account = self.getAccount() else {
-//                return
-//            }
-//
-//            account.notify(deviceIDs: deviceIDs, collectionsChanged: ["clients"], reason: "sendtab")
-//        }
-//
-//        return self.remoteClientsAndTabs.insertCommands(commands, forClients: clients) >>> {
-//            let syncStatus = self.syncManager.syncClients()
-//            syncStatus >>> notifyClients
-//            return syncStatus
-//        }
-//    }
 
     public lazy var logins: BrowserLogins & SyncableLogins & ResettableSyncStorage = {
         return SQLiteLogins(db: self.loginsDB)
@@ -652,67 +496,8 @@ public class BrowserProfile: Profile {
             let center = NotificationCenter.default
 
             center.addObserver(self, selector: #selector(onDatabaseWasRecreated), name: .DatabaseWasRecreated, object: nil)
-            center.addObserver(self, selector: #selector(onLoginDidChange), name: .DataLoginDidChange, object: nil)
             center.addObserver(self, selector: #selector(onStartSyncing), name: .ProfileDidStartSyncing, object: nil)
             center.addObserver(self, selector: #selector(onFinishSyncing), name: .ProfileDidFinishSyncing, object: nil)
-            center.addObserver(self, selector: #selector(onBookmarkBufferValidated), name: .BookmarkBufferValidated, object: nil)
-        }
-
-        func onBookmarkBufferValidated(notification: NSNotification) {
-            #if MOZ_TARGET_CLIENT
-                // We don't send this ad hoc telemetry on the release channel.
-                guard AppConstants.BuildChannel != AppBuildChannel.release else {
-                    return
-                }
-
-                guard profile.prefs.boolForKey(AppConstants.PrefSendUsageData) ?? true else {
-                    log.debug("Profile isn't sending usage data. Not sending bookmark event.")
-                    return
-                }
-
-                guard let validations = (notification.object as? Box<[String: Bool]>)?.value else {
-                    log.warning("Notification didn't have validations.")
-                    return
-                }
-
-                let attempt: Int32 = self.prefs.intForKey("bookmarkvalidationattempt") ?? 1
-                self.prefs.setInt(attempt + 1, forKey: "bookmarkvalidationattempt")
-
-                // Capture the buffer count ASAP, not in the delayed op, because the merge could wipe it!
-                let bufferRows = (self.profile.bookmarks as? MergedSQLiteBookmarks)?.synchronousBufferCount()
-
-                self.doInBackgroundAfter(300) {
-                    self.profile.remoteClientsAndTabs.getClientGUIDs() >>== { clients in
-                        // We would love to include the version and OS etc. of each remote client,
-                        // but we don't store that information. For now, just do a count.
-                        let clientCount = clients.count
-
-                        let id = DeviceInfo.clientIdentifier(self.prefs)
-                        let ping = makeAdHocBookmarkMergePing(Bundle.main, clientID: id, attempt: attempt, bufferRows: bufferRows, valid: validations, clientCount: clientCount)
-                        let payload = ping.stringValue
-
-                        log.debug("Payload is: \(payload)")
-                        guard let body = payload.data(using: .utf8) else {
-                            log.debug("Invalid JSON!")
-                            return
-                        }
-
-                        guard let url = URL(string: "https://mozilla-anonymous-sync-metrics.moo.mx/post/bookmarkvalidation") else {
-                            return
-                        }
-
-                        var request = URLRequest(url: url)
-                        request.httpMethod = "POST"
-                        request.httpBody = body
-                        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-
-                        URLSession.shared.dataTask(with: request) { data, response, error in
-                            let httpResponse = response as? HTTPURLResponse
-                            log.debug("Bookmark validation upload response: \(httpResponse?.statusCode ?? -1).")
-                        }
-                    }
-                }
-            #endif
         }
 
         private func handleRecreationOfDatabaseNamed(name: String?) -> Success {
@@ -836,30 +621,8 @@ public class BrowserProfile: Profile {
 
         func locallyResetCollection(_ collection: String) -> Success {
             switch collection {
-//            case "bookmarks":
-//                return BufferingBookmarksSynchronizer.resetSynchronizerWithStorage(self.profile.bookmarks, basePrefs: self.prefsForSync, collection: "bookmarks")
-//
-//            case "clients":
-//                fallthrough
-//            case "tabs":
-//                // Because clients and tabs share storage, and thus we wipe data for both if we reset either,
-//                // we reset the prefs for both at the same time.
-//                return TabsSynchronizer.resetClientsAndTabsWithStorage(self.profile.remoteClientsAndTabs, basePrefs: self.prefsForSync)
-//
-//            case "history":
-//                return HistorySynchronizer.resetSynchronizerWithStorage(self.profile.history, basePrefs: self.prefsForSync, collection: "history")
             case "passwords":
                 return LoginsSynchronizer.resetSynchronizerWithStorage(self.profile.logins, basePrefs: self.prefsForSync, collection: "passwords")
-//
-//            case "forms":
-//                log.debug("Requested reset for forms, but this client doesn't sync them yet.")
-//                return succeed()
-//            case "addons":
-//                log.debug("Requested reset for addons, but this client doesn't sync them.")
-//                return succeed()
-//            case "prefs":
-//                log.debug("Requested reset for prefs, but this client doesn't sync them.")
-//                return succeed()
             default:
                 log.warning("Asked to reset collection \(collection), which we don't know about.")
                 return succeed()
@@ -875,10 +638,7 @@ public class BrowserProfile: Profile {
 
             // Run these in order, because they might write to the same DB!
             let remove = [
-//                profile.history.onRemovedAccount,
-//                profile.remoteClientsAndTabs.onRemovedAccount,
                 profile.logins.onRemovedAccount,
-//                profile.bookmarks.onRemovedAccount,
             ]
 
             let clearPrefs: () -> Success = {
@@ -924,48 +684,12 @@ public class BrowserProfile: Profile {
                 t.invalidate()
             }
         }
-        /*
-        fileprivate func syncClientsWithDelegate(_ delegate: SyncDelegate, prefs: Prefs, ready: Ready, why: SyncReason) -> SyncResult {
-            log.debug("Syncing clients to storage.")
-
-            let clientSynchronizer = ready.synchronizer(ClientsSynchronizer.self, delegate: delegate, prefs: prefs, why: why)
-            return clientSynchronizer.synchronizeLocalClients(self.profile.remoteClientsAndTabs, withServer: ready.client, info: ready.info, notifier: self) >>== { result in
-                guard case .completed = result else {
-                    return deferMaybe(result)
-                }
-                guard let account = self.profile.account else {
-                    return deferMaybe(result)
-                }
-                log.debug("Updating FxA devices list.")
-                return account.updateFxADevices(remoteDevices: self.profile.remoteClientsAndTabs).bind { _ in
-                    return deferMaybe(result)
-                }
-            }
-        }
-
-        fileprivate func syncTabsWithDelegate(_ delegate: SyncDelegate, prefs: Prefs, ready: Ready, why: SyncReason) -> SyncResult {
-            let storage = self.profile.remoteClientsAndTabs
-            let tabSynchronizer = ready.synchronizer(TabsSynchronizer.self, delegate: delegate, prefs: prefs, why: why)
-            return tabSynchronizer.synchronizeLocalTabs(storage, withServer: ready.client, info: ready.info)
-        }
-
-        fileprivate func syncHistoryWithDelegate(_ delegate: SyncDelegate, prefs: Prefs, ready: Ready, why: SyncReason) -> SyncResult {
-            log.debug("Syncing history to storage.")
-            let historySynchronizer = ready.synchronizer(HistorySynchronizer.self, delegate: delegate, prefs: prefs, why: why)
-            return historySynchronizer.synchronizeLocalHistory(self.profile.history, withServer: ready.client, info: ready.info, greenLight: self.greenLight())
-        }*/
 
         fileprivate func syncLoginsWithDelegate(_ delegate: SyncDelegate, prefs: Prefs, ready: Ready, why: SyncReason) -> SyncResult {
             log.debug("Syncing logins to storage.")
             let loginsSynchronizer = ready.synchronizer(LoginsSynchronizer.self, delegate: delegate, prefs: prefs, why: why)
             return loginsSynchronizer.synchronizeLocalLogins(self.profile.logins, withServer: ready.client, info: ready.info)
         }
-
-        /*fileprivate func mirrorBookmarksWithDelegate(_ delegate: SyncDelegate, prefs: Prefs, ready: Ready, why: SyncReason) -> SyncResult {
-            log.debug("Synchronizing server bookmarks to storage.")
-            let bookmarksMirrorer = ready.synchronizer(BufferingBookmarksSynchronizer.self, delegate: delegate, prefs: prefs, why: why)
-            return bookmarksMirrorer.synchronizeBookmarksToStorage(self.profile.bookmarks, usingBuffer: self.profile.mirrorBookmarks, withServer: ready.client, info: ready.info, greenLight: self.greenLight(), remoteClientsAndTabs: self.profile.remoteClientsAndTabs)
-        }*/
 
         func takeActionsOnEngineStateChanges<T: EngineStateChanges>(_ changes: T) -> Deferred<Maybe<T>> {
             var needReset = Set<String>(changes.collectionsThatNeedLocalReset())
@@ -1130,11 +854,7 @@ public class BrowserProfile: Profile {
             return self.syncSeveral(
                 why: why,
                 synchronizers:
-//                ("clients", self.syncClientsWithDelegate),
-//                ("tabs", self.syncTabsWithDelegate),
                 ("logins", self.syncLoginsWithDelegate)
-//                ("bookmarks", self.mirrorBookmarksWithDelegate),
-//                ("history", self.syncHistoryWithDelegate)
                 ) >>> succeed
         }
 
@@ -1183,43 +903,13 @@ public class BrowserProfile: Profile {
             self.syncEverything(why: .scheduled)
         }
 
-//        public func hasSyncedHistory() -> Deferred<Maybe<Bool>> {
-//            return self.profile.history.hasSyncedHistory()
-//        }
-
         public func hasSyncedLogins() -> Deferred<Maybe<Bool>> {
             return self.profile.logins.hasSyncedLogins()
         }
 
-        /*public func syncClients() -> SyncResult {
-            // TODO: recognize .NotStarted.
-            return self.sync("clients", function: syncClientsWithDelegate)
-        }
-
-        public func syncClientsThenTabs() -> SyncResult {
-            return self.syncSeveral(
-                why: .user,
-                synchronizers:
-                ("clients", self.syncClientsWithDelegate),
-                ("tabs", self.syncTabsWithDelegate)) >>== { statuses in
-                let status = statuses.find { "tabs" == $0.0 }
-                return deferMaybe(status!.1)
-            }
-        }*/
-
         @discardableResult public func syncLogins() -> SyncResult {
             return self.sync("logins", function: syncLoginsWithDelegate)
         }
-
-        /*
-        public func syncHistory() -> SyncResult {
-            // TODO: recognize .NotStarted.
-            return self.sync("history", function: syncHistoryWithDelegate)
-        }
-
-        public func mirrorBookmarks() -> SyncResult {
-            return self.sync("bookmarks", function: mirrorBookmarksWithDelegate)
-        }*/
 
         /**
          * Return a thunk that continues to return true so long as an ongoing sync
