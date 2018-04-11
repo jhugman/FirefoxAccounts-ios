@@ -213,6 +213,55 @@
 			remoteGlobalIDString = D2AAC046055464E500DB518D;
 			remoteInfo = sqlcipher;
 		};
+		3983B09E207E61D8001F5C43 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 23EAF6251E9DAEB100C6EBAB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 23EDEFDD1E9EE72B00F530CF;
+			remoteInfo = Shared;
+		};
+		3983B0A2207E620B001F5C43 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 393F574C2076DCEE00083ADF /* sqlcipher.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = D2AAC045055464E500DB518D;
+			remoteInfo = sqlcipher;
+		};
+		3983B0A4207E62DB001F5C43 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 23EAF6251E9DAEB100C6EBAB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 23EDEFDD1E9EE72B00F530CF;
+			remoteInfo = Shared;
+		};
+		3983B0A6207E62DB001F5C43 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 23EAF6251E9DAEB100C6EBAB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 23EDF0001E9EE73600F530CF;
+			remoteInfo = Account;
+		};
+		3983B0A8207E62DB001F5C43 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 23EAF6251E9DAEB100C6EBAB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 231AEA331ECE702000397F24;
+			remoteInfo = Storage;
+		};
+		3983B0AA207E62DB001F5C43 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 230DFB221EA05D520051A811 /* FxA.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 28F951FA19D0F9FA00DCE892;
+			remoteInfo = FxA;
+		};
+		3983B0AC207E6437001F5C43 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 23EAF6251E9DAEB100C6EBAB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 230A30B21ED3CC42006D0B0E;
+			remoteInfo = Sync;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -811,6 +860,10 @@
 			buildRules = (
 			);
 			dependencies = (
+				3983B0A5207E62DB001F5C43 /* PBXTargetDependency */,
+				3983B0A7207E62DB001F5C43 /* PBXTargetDependency */,
+				3983B0A9207E62DB001F5C43 /* PBXTargetDependency */,
+				3983B0AB207E62DB001F5C43 /* PBXTargetDependency */,
 			);
 			name = Sync;
 			productName = Sync;
@@ -829,6 +882,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				3983B0A3207E620B001F5C43 /* PBXTargetDependency */,
+				3983B09F207E61D8001F5C43 /* PBXTargetDependency */,
 			);
 			name = Storage;
 			productName = Storage;
@@ -847,6 +902,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				3983B0AD207E6437001F5C43 /* PBXTargetDependency */,
 				23511E291EE61DE4002B5507 /* PBXTargetDependency */,
 				23511E271EE61D31002B5507 /* PBXTargetDependency */,
 			);
@@ -1386,6 +1442,41 @@
 			isa = PBXTargetDependency;
 			target = 23EAF62C1E9DAEB100C6EBAB /* fxa-ios */;
 			targetProxy = 23EDF00D1E9EE73700F530CF /* PBXContainerItemProxy */;
+		};
+		3983B09F207E61D8001F5C43 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 23EDEFDD1E9EE72B00F530CF /* Shared */;
+			targetProxy = 3983B09E207E61D8001F5C43 /* PBXContainerItemProxy */;
+		};
+		3983B0A3207E620B001F5C43 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = sqlcipher;
+			targetProxy = 3983B0A2207E620B001F5C43 /* PBXContainerItemProxy */;
+		};
+		3983B0A5207E62DB001F5C43 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 23EDEFDD1E9EE72B00F530CF /* Shared */;
+			targetProxy = 3983B0A4207E62DB001F5C43 /* PBXContainerItemProxy */;
+		};
+		3983B0A7207E62DB001F5C43 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 23EDF0001E9EE73600F530CF /* Account */;
+			targetProxy = 3983B0A6207E62DB001F5C43 /* PBXContainerItemProxy */;
+		};
+		3983B0A9207E62DB001F5C43 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 231AEA331ECE702000397F24 /* Storage */;
+			targetProxy = 3983B0A8207E62DB001F5C43 /* PBXContainerItemProxy */;
+		};
+		3983B0AB207E62DB001F5C43 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = FxA;
+			targetProxy = 3983B0AA207E62DB001F5C43 /* PBXContainerItemProxy */;
+		};
+		3983B0AD207E6437001F5C43 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 230A30B21ED3CC42006D0B0E /* Sync */;
+			targetProxy = 3983B0AC207E6437001F5C43 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
