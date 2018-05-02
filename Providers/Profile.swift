@@ -125,7 +125,7 @@ public protocol Profile: class {
     func hasSyncableAccount() -> Bool
 
     func getAccount() -> FirefoxAccount?
-    func removeAccount()
+    func removeAccount() -> Success
     func setAccount(_ account: FirefoxAccount)
     func flushAccount()
 
@@ -344,7 +344,7 @@ public class BrowserProfile: Profile {
         self.keychain.setAuthenticationInfo(nil)
     }
 
-    public func removeAccount() {
+    public func removeAccount() -> Success {
         let old = self.account
         removeAccountMetadata()
         self.account = nil
@@ -354,7 +354,7 @@ public class BrowserProfile: Profile {
 
         // Trigger cleanup. Pass in the account in case we want to try to remove
         // client-specific data from the server.
-        self.syncManager.onRemovedAccount(old)
+        return self.syncManager.onRemovedAccount(old)
     }
 
     public func setAccount(_ account: FirefoxAccount) {

@@ -314,19 +314,27 @@ open class FxALoginHelper {
 }
 
 extension FxALoginHelper {
-    public func applicationDidDisconnect(_ application: UIApplication) {
+    public func applicationDidDisconnect(_ application: UIApplication) -> Success {
         // According to https://developer.apple.com/documentation/uikit/uiapplication/1623093-unregisterforremotenotifications
         // we should be calling:
-        application.unregisterForRemoteNotifications()
+        DispatchQueue.main.async {
+            if application.isRegisteredForRemoteNotifications {
+                application.unregisterForRemoteNotifications()
+            }
+        }
         // However, https://forums.developer.apple.com/message/179264#179264 advises against it, suggesting there is
         // a 24h period after unregistering where re-registering fails. This doesn't seem to be the case (for me)
         // but this may be useful to know if QA/user-testing find this a problem.
 
         // Whatever, we should unregister from the autopush server. That means we definitely won't be getting any
         // messages.
-        if let pushRegistration = self.account.pushRegistration,
-            let pushClient = self.pushClient {
-            _ = pushClient.unregister(pushRegistration)
+        func unregisterFromPush() -> Success {
+            if let pushRegistration = self.account.pushRegistration,
+                let pushClient = self.pushClient {
+                return pushClient.unregister(pushRegistration)
+            } else {
+                return succeed()
+            }
         }
 
         // TODO: fix Bug 1168690, to tell Sync to delete this client and its tabs.
@@ -334,14 +342,19 @@ extension FxALoginHelper {
 
         // Tell FxA we're no longer attached.
         self.account.destroyDevice()
-
-        // Cleanup the database.
-        self.profile?.removeAccount()
+        _ = unregisterFromPush()
 
         // Cleanup the FxALoginHelper.
         self.account = nil
         self.accountVerified = nil
 
-        self.profile?.prefs.removeObjectForKey(PendingAccountDisconnectedKey)
+        guard let profile = self.profile else {
+            return succeed()
+        }
+
+        profile.prefs.removeObjectForKey(PendingAccountDisconnectedKey)
+
+        // Cleanup the database.
+        return profile.removeAccount()
     }
 }
