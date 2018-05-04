@@ -216,7 +216,7 @@ open class FirefoxAccount {
         }
     }
     
-    public class FxAProfile {
+    open class FxAProfile {
         open var displayName: String?
         open let email: String
         open let avatar: Avatar
