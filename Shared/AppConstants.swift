@@ -25,7 +25,7 @@ public struct AppConstants {
         #endif
     }()
 
-    public static let FxAiOSClientId = "1b1a3e44c54fbb58"
+    public static let FxAiOSClientId = "98adfa37698f255b"
 
     ///  Enables/disables push notificatuibs for FxA
     public static let MOZ_FXA_PUSH: Bool = {
