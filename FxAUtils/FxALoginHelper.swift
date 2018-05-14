@@ -62,15 +62,15 @@ open class FxALoginHelper {
 
     fileprivate weak var profile: Profile?
 
-    fileprivate var account: FirefoxAccount!
+    fileprivate var account: FirefoxAccount?
 
     fileprivate var accountVerified: Bool!
 
     fileprivate var pushClient: PushClient? {
         guard let pushConfiguration = self.getPushConfiguration() ?? self.profile?.accountConfiguration.pushConfiguration,
-            let accountConfiguration = self.profile?.accountConfiguration else {
-                log.error("Push server endpoint could not be found")
-                return nil
+              let accountConfiguration = self.profile?.accountConfiguration else {
+            log.error("Push server endpoint could not be found")
+            return nil
         }
 
         // Experimental mode needs: a) the scheme to be Fennec, and b) the accountConfiguration to be flipped in debug mode.
@@ -144,8 +144,8 @@ open class FxALoginHelper {
         assert(profile != nil, "Profile should still exist and be loaded into this FxAPushLoginStateMachine")
 
         guard let profile = profile,
-            let account = FirefoxAccount.from(profile.accountConfiguration, andJSON: data) else {
-                return self.loginDidFail()
+              let account = FirefoxAccount.from(profile.accountConfiguration, andJSON: data) else {
+            return self.loginDidFail()
         }
         accountVerified = data["verified"].bool ?? false
         self.account = account
@@ -166,7 +166,7 @@ open class FxALoginHelper {
 
     func requestUserNotifications(_ application: UIApplication) {
         if let deferred = self.apnsTokenDeferred, deferred.isFilled,
-            let token = deferred.value.successValue {
+           let token = deferred.value.successValue {
             // If we have an account, then it'll go through ahead and register
             // with autopush here.
             // If not we'll just bail. The Deferred will do the rest.
@@ -228,7 +228,7 @@ open class FxALoginHelper {
             return pushRegistrationDidFail()
         }
 
-        if let pushRegistration = account.pushRegistration {
+        if let pushRegistration = account?.pushRegistration {
             // Currently, we don't support routine changing of push subscriptions
             // then we can assume that if we've already registered with the
             // push server, then we don't need to do it again.
@@ -250,7 +250,7 @@ open class FxALoginHelper {
     }
 
     fileprivate func pushRegistrationDidSucceed(apnsToken: String, pushRegistration: PushRegistration) {
-        account.pushRegistration = pushRegistration
+        account?.pushRegistration = pushRegistration
         readyForSyncing()
     }
 
@@ -271,7 +271,7 @@ open class FxALoginHelper {
 
     fileprivate func awaitVerification(_ attemptsLeft: Int = verificationMaxRetries) {
         guard let account = account,
-            let profile = profile else {
+              let profile = profile else {
             return
         }
 
@@ -329,8 +329,8 @@ extension FxALoginHelper {
         // Whatever, we should unregister from the autopush server. That means we definitely won't be getting any
         // messages.
         func unregisterFromPush() -> Success {
-            if let pushRegistration = self.account.pushRegistration,
-                let pushClient = self.pushClient {
+            if let pushRegistration = self.account?.pushRegistration,
+               let pushClient = self.pushClient {
                 return pushClient.unregister(pushRegistration)
             } else {
                 return succeed()
@@ -341,9 +341,7 @@ extension FxALoginHelper {
         // i.e. upload a {deleted: true} client record.
 
         // Tell FxA we're no longer attached.
-        if self.account != nil {
-            self.account.destroyDevice()
-        }
+        self.account?.destroyDevice()
         _ = unregisterFromPush()
 
         // Cleanup the FxALoginHelper.
