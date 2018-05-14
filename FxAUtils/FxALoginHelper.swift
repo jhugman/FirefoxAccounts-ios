@@ -341,7 +341,9 @@ extension FxALoginHelper {
         // i.e. upload a {deleted: true} client record.
 
         // Tell FxA we're no longer attached.
-        self.account.destroyDevice()
+        if self.account != nil {
+            self.account.destroyDevice()
+        }
         _ = unregisterFromPush()
 
         // Cleanup the FxALoginHelper.
