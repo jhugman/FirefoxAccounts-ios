@@ -99,12 +99,12 @@ open class FxALoginHelper {
         accountVerified = account.actionNeeded != .needsVerification
 
         guard AppConstants.MOZ_FXA_PUSH else {
-            return loginDidSucceed()
+            return readyForSyncing()
         }
 
         if let _ = account.pushRegistration {
             // We have an account, and it's already registered for push notifications.
-            return loginDidSucceed()
+            return readyForSyncing()
         }
 
         // Now: we have an account that does not have push notifications set up.
@@ -120,7 +120,7 @@ open class FxALoginHelper {
                 // If the user denied permission, or flipped permissions in the Settings app, then
                 // we'll bug them once, but this is probably unavoidable.
                 if asked {
-                    return self.loginDidSucceed()
+                    return self.readyForSyncing()
                 }
             }
 
