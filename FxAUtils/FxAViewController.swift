@@ -130,7 +130,17 @@ open class FxAViewController: UIViewController, WKNavigationDelegate, WKScriptMe
         let app = UIApplication.shared
         let helper = FxALoginHelper.sharedInstance
         helper.delegate = self
-        helper.application(app, didReceiveAccountJSON: data)
+
+        let json = JSON([
+            "kty": "oct",
+            "scope": "https://identity.mozilla.com/apps/oldsync",
+            "k": "YT5qwo8dIDyUziwBnPfs8x3LPcifFqo7NHLxuTiRKV8J5BwN9VqpVskjYuhGhrYKJQ1H1dk8cAk-KVK-9f4G6A",
+            "kid": "1511970460364-KKLyRmenVYYmQB4GBCi1rg"
+            ])
+        let accessToken = "efe76c3abec8f5879568e1f3c9cba697363df6dd933039df8cb1c4ef8061bd05"
+        let email = "tester+p3@hugman.tv"
+
+        helper.application(app, email: email, accessToken: accessToken, oauthKeys: json)
     }
 
     // Dispatch webkit messages originating from our child webview.
@@ -161,17 +171,6 @@ fileprivate func getJS() -> String {
 extension FxAViewController: FxAPushLoginDelegate {
     func accountLoginDidSucceed(withFlags flags: FxALoginFlags) {
         DispatchQueue.main.async {
-//            let token = self.profile.getAccount()!.syncAuthState.token(Date.now(), canBeExpired: false)
-//            token.upon { result in
-//                print("token result!")
-//                guard let tst = token.value.successValue?.token, let key = token.value.successValue?.forKey else {
-//                    print("No token")
-//                    return
-//                }
-//                // TODO: Return SyncClient object, for making get* calls
-//                let client = FxASyncClient(token: tst, key: key)
-//                client.getHistory()
-//            }
             self.dismiss(animated: true, completion: nil)
         }
     }

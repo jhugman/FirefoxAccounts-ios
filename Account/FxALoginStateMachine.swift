@@ -175,6 +175,10 @@ class FxALoginStateMachine {
             // We can't advance from the separated state (we need user input) or the doghouse (we need a client upgrade).
             log.warning("User interaction required; not transitioning.")
             return same
+
+        case .oauthLinked:
+            log.warning("OAuth tokens and keys valid, no further action required")
+            return same
         }
     }
 
