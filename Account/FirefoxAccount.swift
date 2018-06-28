@@ -304,15 +304,17 @@ open class FirefoxAccount {
     // Fetch current user's FxA profile. It contains the most updated email, displayName and avatar. This
     // emits two `NotificationFirefoxAccountProfileChanged`, once when the profile has been downloaded and
     // another when the avatar image has been downloaded.
-    open func updateProfile() {
+    open func updateProfile() -> Deferred<Maybe<FxAProfile>> {
         guard let session = stateCache.value as? TokenState else {
-            return
+            return deferMaybe(NotATokenStateError(state: stateCache.value))
         }
         
         let client = FxAClient10(authEndpoint: self.configuration.authEndpointURL, oauthEndpoint: self.configuration.oauthEndpointURL, profileEndpoint: self.configuration.profileEndpointURL)
-        client.getProfile(withSessionToken: session.sessionToken as NSData) >>== { result in
-            self.fxaProfile = FxAProfile(email: result.email, displayName: result.displayName, avatar: result.avatarURL)
+        return client.getProfile(withSessionToken: session.sessionToken as NSData) >>== { result in
+            let fxaProfile = FxAProfile(email: result.email, displayName: result.displayName, avatar: result.avatarURL)
+            self.fxaProfile = fxaProfile
             NotificationCenter.default.post(name: .FirefoxAccountProfileChanged, object: self)
+            return deferMaybe(fxaProfile)
         }
     }
     
@@ -361,12 +363,19 @@ open class FirefoxAccount {
     }
 
     @discardableResult open func destroyDevice() -> Success {
+        guard AppConstants.FxADeviceRegistrationEnabled else {
+            // No point going on if this was disabled at compile time.
+            // We do this here rather than the call site because this is
+            // a public method.
+            return succeed()
+        }
         guard let session = stateCache.value as? TokenState else {
             return deferMaybe(NotATokenStateError(state: stateCache.value))
         }
         guard let ownDeviceId = self.deviceRegistration?.id else {
             return deferMaybe(FxAClientError.local(NSError()))
         }
+
         let client = FxAClient10(authEndpoint: self.configuration.authEndpointURL)
 
         return client.destroyDevice(ownDeviceId: ownDeviceId, withSessionToken: session.sessionToken as NSData) >>> succeed
@@ -394,7 +403,7 @@ open class FirefoxAccount {
         // Alright, we haven't an advance() in progress.  Schedule a new deferred to chain from.
         let cachedState = stateCache.value!
         let registration: Success
-        if let session = cachedState as? TokenState {
+        if AppConstants.FxADeviceRegistrationEnabled, let session = cachedState as? TokenState {
             registration = self.registerOrUpdateDevice(session: session)
         } else {
             registration = succeed()

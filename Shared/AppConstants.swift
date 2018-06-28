@@ -52,4 +52,6 @@ public struct AppConstants {
     }()
 
     public static let PrefSendUsageData = "pref.sendUsageData"
+
+    public static let FxADeviceRegistrationEnabled = false
 }

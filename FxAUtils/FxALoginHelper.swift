@@ -150,7 +150,7 @@ open class FxALoginHelper {
         accountVerified = data["verified"].bool ?? false
         self.account = account
 
-        account.updateProfile()
+        _ = account.updateProfile()
 
         if AppConstants.MOZ_FXA_PUSH {
             requestUserNotifications(application)
@@ -307,8 +307,8 @@ open class FxALoginHelper {
     }
 
     func performVerifiedSync(_ profile: Profile, account: FirefoxAccount) {
-        profile.syncManager.syncEverything(why: .didLogin).uponQueue(.main) { _ in
-//            self.delegate?.accountDidSync()
+        profile.syncManager.syncEverything(why: .didLogin) >>== {
+            _ = account.updateProfile()
         }
     }
 }
