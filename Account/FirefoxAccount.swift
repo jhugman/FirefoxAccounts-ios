@@ -361,12 +361,19 @@ open class FirefoxAccount {
     }
 
     @discardableResult open func destroyDevice() -> Success {
+        guard AppConstants.FxADeviceRegistrationEnabled else {
+            // No point going on if this was disabled at compile time.
+            // We do this here rather than the call site because this is
+            // a public method.
+            return succeed()
+        }
         guard let session = stateCache.value as? TokenState else {
             return deferMaybe(NotATokenStateError(state: stateCache.value))
         }
         guard let ownDeviceId = self.deviceRegistration?.id else {
             return deferMaybe(FxAClientError.local(NSError()))
         }
+
         let client = FxAClient10(authEndpoint: self.configuration.authEndpointURL)
 
         return client.destroyDevice(ownDeviceId: ownDeviceId, withSessionToken: session.sessionToken as NSData) >>> succeed
@@ -394,7 +401,7 @@ open class FirefoxAccount {
         // Alright, we haven't an advance() in progress.  Schedule a new deferred to chain from.
         let cachedState = stateCache.value!
         let registration: Success
-        if let session = cachedState as? TokenState {
+        if AppConstants.FxADeviceRegistrationEnabled, let session = cachedState as? TokenState {
             registration = self.registerOrUpdateDevice(session: session)
         } else {
             registration = succeed()
