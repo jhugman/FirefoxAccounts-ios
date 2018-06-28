@@ -304,15 +304,17 @@ open class FirefoxAccount {
     // Fetch current user's FxA profile. It contains the most updated email, displayName and avatar. This
     // emits two `NotificationFirefoxAccountProfileChanged`, once when the profile has been downloaded and
     // another when the avatar image has been downloaded.
-    open func updateProfile() {
+    open func updateProfile() -> Deferred<Maybe<FxAProfile>> {
         guard let session = stateCache.value as? TokenState else {
-            return
+            return deferMaybe(NotATokenStateError(state: stateCache.value))
         }
         
         let client = FxAClient10(authEndpoint: self.configuration.authEndpointURL, oauthEndpoint: self.configuration.oauthEndpointURL, profileEndpoint: self.configuration.profileEndpointURL)
-        client.getProfile(withSessionToken: session.sessionToken as NSData) >>== { result in
-            self.fxaProfile = FxAProfile(email: result.email, displayName: result.displayName, avatar: result.avatarURL)
+        return client.getProfile(withSessionToken: session.sessionToken as NSData) >>== { result in
+            let fxaProfile = FxAProfile(email: result.email, displayName: result.displayName, avatar: result.avatarURL)
+            self.fxaProfile = fxaProfile
             NotificationCenter.default.post(name: .FirefoxAccountProfileChanged, object: self)
+            return deferMaybe(fxaProfile)
         }
     }
     
