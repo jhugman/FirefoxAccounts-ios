@@ -104,9 +104,9 @@ open class SyncStateMachine {
     public static let OptimisticStates = Set(SyncStateLabel.optimisticValues)
 
     /// The default set of states that the state machine is allowed to use.
-    public static let AllStates = Set(SyncStateLabel.allValues)
+    public static let SupportedStates = Set(SyncStateLabel.supportedStates)
 
-    public init(prefs: Prefs, allowingStates labels: Set<SyncStateLabel> = SyncStateMachine.AllStates) {
+    public init(prefs: Prefs, allowingStates labels: Set<SyncStateLabel> = SyncStateMachine.SupportedStates) {
         self.scratchpadPrefs = prefs.branch("scratchpad")
         self.stateLabelsAllowed = labels
     }
@@ -258,6 +258,9 @@ public enum SyncStateLabel: String {
         HasFreshCryptoKeys,
         Ready,
     ]
+
+    static let supportedStates: [SyncStateLabel] =
+        SyncStateLabel.allValues.filter { ![ServerConfigurationRequired].contains($0) }
 }
 
 /**
