@@ -54,6 +54,8 @@ extension SyncAuthStateCache: JSONLiteralConvertible {
 }
 
 open class FirefoxAccountSyncAuthState: SyncAuthState {
+    static let tokenValidityDuration = 5 * OneMinuteInMilliseconds
+
     fileprivate let account: FirefoxAccount
     fileprivate let cache: KeychainCache<SyncAuthStateCache>
     public var deviceID: String? {
@@ -78,7 +80,7 @@ extension FirefoxAccountSyncAuthState {
     open func token(_ now: Timestamp, canBeExpired: Bool) -> Deferred<Maybe<(token: TokenServerToken, forKey: Data)>> {
         if let value = cache.value {
             // Give ourselves some room to do work.
-            let isExpired = value.expiresAt < now + 5 * OneMinuteInMilliseconds
+            let isExpired = value.expiresAt < now + FirefoxAccountSyncAuthState.tokenValidityDuration
             if canBeExpired {
                 if isExpired {
                     log.info("Returning cached expired token.")

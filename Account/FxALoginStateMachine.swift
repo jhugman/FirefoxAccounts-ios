@@ -177,7 +177,7 @@ class FxALoginStateMachine {
             return same
 
         case .oauthLinked:
-            log.warning("OAuth tokens and keys valid, no further action required")
+            log.info("OAuth tokens and keys valid, no further action required")
             return same
         }
     }
