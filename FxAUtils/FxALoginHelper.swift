@@ -132,6 +132,53 @@ open class FxALoginHelper {
     }
 
     // This is called when the user logs into a new FxA account.
+    //
+    // This method uses OAuth.
+    //
+    // Unfortunately, with this method, the server takes ownership of the
+    // email confirmation, which means that we are unable to track it on the client.
+    // On the other hand, client code will not have access to the access token or
+    // the scoped key until the email confirmation has been done.
+    // Thus, if the client is stopped between a successful login and an email confirmation, then
+    // it has no way of returning to the web page in order to get useful credentials.q
+    //
+    // It manages the asking for user permission for notification and registration
+    // for APNS and WebPush notifications.
+    public func application(_ application: UIApplication,
+                            email: String,
+                            accessToken: String,
+                            oauthKeys data: JSON) -> Bool {
+
+        guard let profile = profile else {
+            return false
+        }
+
+        guard let oauthInfo = OAuthInfoKey(from: data) else {
+            return false
+        }
+
+        let state = OAuthLinkedState(accessToken: accessToken, oauthInfo: oauthInfo)
+
+        let account = FirefoxAccount(configuration: profile.accountConfiguration, email: email, uid: email, deviceRegistration: nil, declinedEngines: nil, stateKeyLabel: state.label.rawValue, state: state, deviceName: DeviceInfo.defaultClientName())
+
+        self.accountVerified = true
+        self.account = account
+
+        if AppConstants.MOZ_FXA_PUSH {
+            requestUserNotifications(application)
+        } else {
+            readyForSyncing()
+        }
+
+        return true
+    }
+
+    // This is called when the user logs into a new FxA account.
+    //
+    // This method uses the Firefox for iOS supported method of Browser Assertions.
+    //
+    // The method will poll the server until the user has email verified.
+    //
     // It manages the asking for user permission for notification and registration
     // for APNS and WebPush notifications.
     public func application(_ application: UIApplication, didReceiveAccountJSON data: JSON) {

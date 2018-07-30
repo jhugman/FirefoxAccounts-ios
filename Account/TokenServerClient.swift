@@ -146,12 +146,20 @@ open class TokenServerClient {
     }()
 
     open func token(_ assertion: String, clientState: String? = nil) -> Deferred<Maybe<TokenServerToken>> {
+        return token(authHeader: "BrowserID \(assertion)", xHeaderKey: "X-Client-State", xHeaderValue: clientState)
+    }
+
+    open func token(_ accessToken: String, kid k: String? = nil) -> Deferred<Maybe<TokenServerToken>> {
+        return token(authHeader: "Bearer \(accessToken)", xHeaderKey: "X-KeyID", xHeaderValue: k)
+    }
+
+    fileprivate func token(authHeader: String, xHeaderKey: String, xHeaderValue: String?) -> Deferred<Maybe<TokenServerToken>> {
         let deferred = Deferred<Maybe<TokenServerToken>>()
 
         var mutableURLRequest = URLRequest(url: URL)
-        mutableURLRequest.setValue("BrowserID " + assertion, forHTTPHeaderField: "Authorization")
-        if let clientState = clientState {
-            mutableURLRequest.setValue(clientState, forHTTPHeaderField: "X-Client-State")
+        mutableURLRequest.setValue(authHeader, forHTTPHeaderField: "Authorization")
+        if let xHeaderValue = xHeaderValue {
+            mutableURLRequest.setValue(xHeaderValue, forHTTPHeaderField: xHeaderKey)
         }
 
         alamofire.request(mutableURLRequest)

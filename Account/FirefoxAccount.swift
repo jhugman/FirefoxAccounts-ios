@@ -262,28 +262,8 @@ open class FirefoxAccount {
             }
             
             func downloadAvatar() {
-//                SDWebImageManager.shared().loadImage(with: url, options: [.continueInBackground, .lowPriority], progress: nil) { (image, _, error, _, success, _) in
-//                    if let error = error {
-//                        if (error as NSError).code == 404 || self.currentImageState == .failedCanRetry {
-//                            // Image is not found or failed to download a second time
-//                            self.currentImageState = .failedCanNotRetry
-//                        } else {
-//                            // This could have been a transient error, attempt to download the image only once more
-//                            self.currentImageState = .failedCanRetry
-//                            self.updateAvatarImageState()
-//                        }
-//                        return
-//                    }
-//
-//                    if success == true && image == nil {
-//                        self.currentImageState = .succeededMalformed
-//                        return
-//                    }
-//
-//                    self.image = image
-//                    self.currentImageState = .succeeded
-//                    NotificationCenter.default.post(name: .FirefoxAccountProfileChanged, object: self)
-//                }
+                // This needs to be cleaned up, but is left in because this whole project is going
+                // be removed and deleted before we can pay down any technical debt.
             }
         }
     }
@@ -437,12 +417,14 @@ open class FirefoxAccount {
         return deferred
     }
 
-    open func marriedState() -> Deferred<Maybe<MarriedState>> {
+    open func readyState() -> Deferred<Maybe<FxAState>> {
         return advance().map { newState in
-            if newState.label == FxAStateLabel.married {
-                if let married = newState as? MarriedState {
+            if newState.label == .married,
+                let married = newState as? MarriedState {
                     return Maybe(success: married)
-                }
+            } else if newState.label == .oauthLinked,
+                let oauthLinked = newState as? OAuthLinkedState {
+                return Maybe(success: oauthLinked)
             }
             return Maybe(failure: AccountError.notMarried)
         }
@@ -457,6 +439,12 @@ open class FirefoxAccount {
     @discardableResult open func makeDoghouse() -> Bool {
         log.info("Making Account State be Doghouse.")
         self.stateCache.value = DoghouseState()
+        return true
+    }
+
+    @discardableResult open func makeOAuthLinked(accessToken: String, oauthInfo: OAuthInfoKey) -> Bool {
+        log.info("Making Account State be OAuthLinked.")
+        self.stateCache.value = OAuthLinkedState(accessToken: accessToken, oauthInfo: oauthInfo)
         return true
     }
 

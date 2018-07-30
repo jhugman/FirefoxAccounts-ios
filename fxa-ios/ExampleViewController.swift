@@ -144,7 +144,7 @@ extension ExampleViewController {
     }
 
     func logoutPressed() {
-        FxALoginHelper.sharedInstance.applicationDidDisconnect(UIApplication.shared)
+        _ = FxALoginHelper.sharedInstance.applicationDidDisconnect(UIApplication.shared)
 
         prepareButton()
     }

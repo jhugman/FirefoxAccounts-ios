@@ -21,6 +21,7 @@ public enum FxAStateLabel: String {
     case married = "married"
     case separated = "separated"
     case doghouse = "doghouse"
+    case oauthLinked = "oauthLinked"
 
     // See http://stackoverflow.com/a/24137319
     static let allValues: [FxAStateLabel] = [
@@ -31,6 +32,8 @@ public enum FxAStateLabel: String {
         married,
         separated,
         doghouse,
+
+        oauthLinked,
     ]
 }
 
@@ -134,6 +137,14 @@ func stateV2(fromJSON json: JSON) -> FxAState? {
 
             case .doghouse:
                 return DoghouseState()
+
+            case .oauthLinked:
+                if let _ = json["oauthInfo"].dictionary,
+                    let oauthInfo = OAuthInfoKey(from: json["oauthInfo"]),
+                    let accessToken = json["accessToken"].string {
+
+                    return OAuthLinkedState(accessToken: accessToken, oauthInfo: oauthInfo)
+                }
             }
         }
     }
@@ -154,6 +165,8 @@ open class FxAState: JSONLiteralConvertible {
         case .married: return .none
         case .separated: return .needsPassword
         case .doghouse: return .needsUpgrade
+
+        case .oauthLinked: return .none
         }
     }
 
@@ -351,5 +364,54 @@ open class DoghouseState: FxAState {
 
     override public init() {
         super.init()
+    }
+}
+
+open class OAuthLinkedState: FxAState {
+    override open var label: FxAStateLabel { return FxAStateLabel.oauthLinked }
+
+    let accessToken: String
+    let oauthInfo: OAuthInfoKey
+
+    public init(accessToken: String, oauthInfo: OAuthInfoKey) {
+        self.oauthInfo = oauthInfo
+        self.accessToken = accessToken
+    }
+
+    open override func asJSON() -> JSON {
+        var d = super.asJSON().dictionary!
+        d["accessToken"] = JSON(accessToken)
+        d["oauthInfo"] = oauthInfo.asJSON()
+        return JSON(d)
+    }
+}
+
+open class OAuthInfoKey {
+    let kty: String
+    let scope: String
+    let k: Data
+    let kid: String
+
+    public init?(from json: JSON) {
+        guard let kty = json["kty"].string,
+            let scope = json["scope"].string,
+            let k = json["k"].string?.base64urlSafeDecodedData,
+            let kid = json["kid"].string else {
+                return nil
+        }
+
+        self.kty = kty
+        self.scope = scope
+        self.k = k
+        self.kid = kid
+    }
+
+    func asJSON() -> JSON {
+        var d: [String: JSON] = [:]
+        d["scope"] = JSON(scope)
+        d["k"] = JSON(k.base64urlSafeEncodedString ?? "")
+        d["kid"] = JSON(kid)
+        d["kty"] = JSON(kty)
+        return JSON(d)
     }
 }
