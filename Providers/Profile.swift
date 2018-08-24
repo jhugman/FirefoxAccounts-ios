@@ -861,7 +861,6 @@ public class BrowserProfile: Profile {
         func syncEverythingSoon() {
             self.doInBackgroundAfter(SyncConstants.SyncOnForegroundAfterMillis) {
                 log.debug("Running delayed startup sync.")
-                sleep(15)
                 self.syncEverything(why: .startup)
             }
         }
