@@ -362,34 +362,11 @@ open class FxALoginHelper {
 
 extension FxALoginHelper {
     public func applicationDidDisconnect(_ application: UIApplication) -> Success {
-        // According to https://developer.apple.com/documentation/uikit/uiapplication/1623093-unregisterforremotenotifications
-        // we should be calling:
-        DispatchQueue.main.async {
-            if application.isRegisteredForRemoteNotifications {
-                application.unregisterForRemoteNotifications()
-            }
-        }
-        // However, https://forums.developer.apple.com/message/179264#179264 advises against it, suggesting there is
-        // a 24h period after unregistering where re-registering fails. This doesn't seem to be the case (for me)
-        // but this may be useful to know if QA/user-testing find this a problem.
-
-        // Whatever, we should unregister from the autopush server. That means we definitely won't be getting any
-        // messages.
-        func unregisterFromPush() -> Success {
-            if let pushRegistration = self.account?.pushRegistration,
-               let pushClient = self.pushClient {
-                return pushClient.unregister(pushRegistration)
-            } else {
-                return succeed()
-            }
-        }
-
         // TODO: fix Bug 1168690, to tell Sync to delete this client and its tabs.
         // i.e. upload a {deleted: true} client record.
 
         // Tell FxA we're no longer attached.
         self.account?.destroyDevice()
-        _ = unregisterFromPush()
 
         // Cleanup the FxALoginHelper.
         self.account = nil

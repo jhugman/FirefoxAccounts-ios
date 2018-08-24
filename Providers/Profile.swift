@@ -775,16 +775,16 @@ public class BrowserProfile: Profile {
                 // the synchronizers to the reducer below.
                 self.syncReducer = reducer
                 self.beginSyncing()
-            }
-
-            do {
-                return try syncReducer!.append(synchronizers)
-            } catch let error {
-                log.error("Synchronizers appended after sync was finished. This is a bug. \(error)")
-                let statuses = synchronizers.map {
-                    ($0.0, SyncStatus.notStarted(.unknown))
+                
+                do {
+                    return try reducer.append(synchronizers)
+                } catch let error {
+                    log.error("Synchronizers appended after sync was finished. This is a bug. \(error)")
+                    let statuses = synchronizers.map {
+                        ($0.0, SyncStatus.notStarted(.unknown))
+                    }
+                    return deferMaybe(statuses)
                 }
-                return deferMaybe(statuses)
             }
         }
 
@@ -861,6 +861,7 @@ public class BrowserProfile: Profile {
         func syncEverythingSoon() {
             self.doInBackgroundAfter(SyncConstants.SyncOnForegroundAfterMillis) {
                 log.debug("Running delayed startup sync.")
+                sleep(15)
                 self.syncEverything(why: .startup)
             }
         }
