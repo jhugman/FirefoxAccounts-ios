@@ -786,6 +786,11 @@ public class BrowserProfile: Profile {
                     return deferMaybe(statuses)
                 }
             }
+
+            let statuses = synchronizers.map {
+                ($0.0, SyncStatus.notStarted(.unknown))
+            }
+            return deferMaybe(statuses)
         }
 
         func engineEnablementChangesForAccount(account: FirefoxAccount, profile: Profile) -> [String: Bool]? {
