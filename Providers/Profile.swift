@@ -775,22 +775,24 @@ public class BrowserProfile: Profile {
                 // the synchronizers to the reducer below.
                 self.syncReducer = reducer
                 self.beginSyncing()
-                
-                do {
-                    return try reducer.append(synchronizers)
-                } catch let error {
-                    log.error("Synchronizers appended after sync was finished. This is a bug. \(error)")
-                    let statuses = synchronizers.map {
-                        ($0.0, SyncStatus.notStarted(.unknown))
-                    }
-                    return deferMaybe(statuses)
+            }
+            
+            guard let reducer = self.syncReducer else {
+                let statuses = synchronizers.map {
+                    ($0.0, SyncStatus.notStarted(.unknown))
                 }
+                return deferMaybe(statuses)
             }
 
-            let statuses = synchronizers.map {
-                ($0.0, SyncStatus.notStarted(.unknown))
+            do {
+                return try reducer.append(synchronizers)
+            } catch let error {
+                log.error("Synchronizers appended after sync was finished. This is a bug. \(error)")
+                let statuses = synchronizers.map {
+                    ($0.0, SyncStatus.notStarted(.unknown))
+                }
+                return deferMaybe(statuses)
             }
-            return deferMaybe(statuses)
         }
 
         func engineEnablementChangesForAccount(account: FirefoxAccount, profile: Profile) -> [String: Bool]? {
