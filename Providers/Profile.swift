@@ -776,9 +776,16 @@ public class BrowserProfile: Profile {
                 self.syncReducer = reducer
                 self.beginSyncing()
             }
+            
+            guard let reducer = self.syncReducer else {
+                let statuses = synchronizers.map {
+                    ($0.0, SyncStatus.notStarted(.unknown))
+                }
+                return deferMaybe(statuses)
+            }
 
             do {
-                return try syncReducer!.append(synchronizers)
+                return try reducer.append(synchronizers)
             } catch let error {
                 log.error("Synchronizers appended after sync was finished. This is a bug. \(error)")
                 let statuses = synchronizers.map {
