@@ -83,7 +83,6 @@
 		23EDF0321E9EE74500F530CF /* FxALoginStateMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23EDF0251E9EE74500F530CF /* FxALoginStateMachine.swift */; };
 		23EDF0331E9EE74500F530CF /* FxAState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23EDF0261E9EE74500F530CF /* FxAState.swift */; };
 		23EDF0341E9EE74500F530CF /* HawkHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23EDF0271E9EE74500F530CF /* HawkHelper.swift */; };
-		23EDF0351E9EE74500F530CF /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 23EDF0281E9EE74500F530CF /* Info.plist */; };
 		23EDF0361E9EE74500F530CF /* SyncAuthState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23EDF0291E9EE74500F530CF /* SyncAuthState.swift */; };
 		23EDF0371E9EE74500F530CF /* TokenServerClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23EDF02A1E9EE74500F530CF /* TokenServerClient.swift */; };
 		23EDF03E1E9EE76800F530CF /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23EDF0391E9EE76800F530CF /* Logger.swift */; };
@@ -1205,7 +1204,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				23EDF0351E9EE74500F530CF /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
